@@ -1,7 +1,6 @@
 AhmedOKR.txt
 
 Schedule and deliverable:
-- Implement space bar input for character launch in game engine -- Fri by 5pm (estimate: 3 hrs)
-- Design basic plane for the level in Unity -- Sun by 1pm (estimate: 5 hrs)
-- Test character launch and plane interaction to ensure smooth gameplay -- Mon by 10am (estimate: 2 hrs)
-- Optimize level design for better gameplay experience -- Mon by 6pm (estimate: 2 hrs)
+- Implement space bar input for character launch in game engine -- Fri by 5pm (estimate: 8 hrs)
+- Test character launch and plane interaction to ensure smooth gameplay -- Mon by 10am (estimate: 8 hrs)
+
