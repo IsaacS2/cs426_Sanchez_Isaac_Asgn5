@@ -1,3 +1,3 @@
 Schedule and deliverables:
-	Implement left and right arrow input to the direction the mask(player) is facing--Saturday by 8pm(estimate: 4 hrs)
-	Implement Up and down arrow input to change player angle --Sunday by 8pm(estimate: 4hrs)
+	Implement left and right arrow input to the direction the mask(player) is facing -- Saturday by 8pm (estimate: 4 hrs)
+	Implement Up and down arrow input to change player angle -- Sunday by 8pm (estimate: 4hrs)
