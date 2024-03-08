@@ -2,6 +2,6 @@ AhmedOKR.txt
 
 Schedule and deliverable:
 - Create a sphere in the center of the level to act as a focal point -- Sun by 4pm (estimate: 2 hrs)
-- Implement space bar input for character launch in game engine -- Fri by 5pm (estimate: 3 hrs)
+- Keep the camera on the current player from rotating constantly while being launched; keep the camera steady during movement -- Fri by 5pm (estimate: 3 hrs)
 - Test character launch and plane interaction to ensure smooth gameplay -- Mon by 10am (estimate: 1.5 hrs)
 
