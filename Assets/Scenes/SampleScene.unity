@@ -363,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6208780606092537639, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
       propertyPath: m_Name
-      value: P2Mask
+      value: Mask (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -530,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6208780606092537639, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
       propertyPath: m_Name
-      value: P1Mask
+      value: Mask
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
