@@ -1,4 +1,4 @@
 Schedule and deliverable:
   Add space input to launch mask -- Sat by 5pm (estimate: 2 hrs)
-  Add force meter that allows players to launch their mask at different forces -- Sun by 12pm (estimate: 2 hr)
+  Add force meter that allows players to launch their mask at different forces -- Sun by 2pm (estimate: 2 hr)
   Add turn mechanic that shifts turns from one mask to another, including changing camera view to new player -- Mon by 12pm (estimate: 3 hrs)
