@@ -20,9 +20,15 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
 
+    // trajectory values
     float angle=0;
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
+
+    // up/down angle values
+    private int verticalValue;
+    private int forwardValue;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -34,6 +40,9 @@ public class MaskLaunchScript : MonoBehaviour
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
         trajectoryline.enabled= false;
+
+        verticalValue = 1;
+        forwardValue = 1;
     }
 
     private void OnEnable()
@@ -75,6 +84,8 @@ public class MaskLaunchScript : MonoBehaviour
                 }
             }
 
+            
+
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
@@ -91,6 +102,8 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= false;
             }
 
+            
+
             if (Input.GetKey(KeyCode.W)){
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
@@ -101,7 +114,7 @@ public class MaskLaunchScript : MonoBehaviour
             if (Input.GetKey(KeyCode.Z)){
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
-                throwVal += Time.deltaTime * forceRateChange;
+                throwVal -= Time.deltaTime * forceRateChange;
                 Vector3 maskvelocity= (cam.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                 ShowTrajectory(rb.position,maskvelocity  );
             }
