@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -319,13 +319,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260859056}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 9, z: -5}
-  m_LocalScale: {x: 1, y: 10, z: 1}
+  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 15.535534, y: 1, z: -15.535534}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1626390214}
-  m_Father: {fileID: 1625891314}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &260859058
 AudioListener:
@@ -573,10 +573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4509472989072791042, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 260859057}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6208780606092537639, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
       insertIndex: -1
@@ -585,11 +582,6 @@ PrefabInstance:
 --- !u!1 &1625891313 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6208780606092537639, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
-  m_PrefabInstance: {fileID: 1625891312}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1625891314 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4509472989072791042, guid: 04d39a6c0cd25064d863437de071b5aa, type: 3}
   m_PrefabInstance: {fileID: 1625891312}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1625891315
@@ -606,7 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forceVal: 0
   forceRateChange: 4
-  maxForce: 5
+  maxForce: 100
 --- !u!1 &1626390210
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +902,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1708002873}
   - {fileID: 141830141}
+  - {fileID: 260859057}
   - {fileID: 1625891312}
   - {fileID: 963282879}
   - {fileID: 835441309}
