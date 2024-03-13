@@ -17,6 +17,7 @@ public class MaskLaunchScript : MonoBehaviour
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5;
     [SerializeField] private GameObject nextPlayer;
+    [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
     private float rotationSpeed = 5.0f; 
@@ -51,6 +52,7 @@ public class MaskLaunchScript : MonoBehaviour
         canLaunch = true;
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
+        camHolder.GetComponent<movement>().enabled = true;
     }
 
     // Update is called once per frame
@@ -103,6 +105,7 @@ public class MaskLaunchScript : MonoBehaviour
                 chargingForce = false;
                 trajectoryline.enabled= false;
                 gameObject.GetComponent<movement>().enabled = false;
+                camHolder.GetComponent<movement>().enabled = false;
             }
 
             
