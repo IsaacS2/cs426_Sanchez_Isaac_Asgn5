@@ -19,9 +19,11 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject nextPlayer;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
+    private float rotationSpeed = 5.0f; 
 
     // trajectory values
     float angle=0;
+    private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
 
@@ -40,9 +42,8 @@ public class MaskLaunchScript : MonoBehaviour
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
         trajectoryline.enabled= false;
+        AngleFab= this.transform.Find("Angle").gameObject;
 
-        verticalValue = 1;
-        forwardValue = 1;
     }
 
     private void OnEnable()
@@ -90,10 +91,10 @@ public class MaskLaunchScript : MonoBehaviour
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
                 Debug.Log(forceVal);  // display charged force
-                rb.AddForce((Vector3.up + this.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
+                rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = 1f;  // start movement-tracking timer
-
+                AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
@@ -108,15 +109,32 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
-                Vector3 maskvelocity= (cam.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
-                ShowTrajectory(rb.position,maskvelocity  );
+                
+                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) { 
+                    float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
+                    AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
+                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
+                    ShowTrajectory(AngleFab.transform.position,maskvelocity);
+                   
+                }
+                // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
+                //     AngleFab.transform.forward=new Vector3(AngleFab.transform.forward.x, AngleFab.transform.forward.y+0.1f, AngleFab.transform.forward.z);
+                //     Debug.Log(AngleFab.transform.rotation.eulerAngles);
+                // }
+
+                
             }
             if (Input.GetKey(KeyCode.Z)){
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
-                throwVal -= Time.deltaTime * forceRateChange;
-                Vector3 maskvelocity= (cam.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
-                ShowTrajectory(rb.position,maskvelocity  );
+                throwVal += Time.deltaTime * forceRateChange;
+                if (AngleFab.transform.localEulerAngles.x == 285.0 || AngleFab.transform.localEulerAngles.x <359.0 ) { 
+                    float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
+                    AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
+                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
+                    ShowTrajectory(rb.position,maskvelocity);
+                }
+                
             }
 
          }
