@@ -5,7 +5,7 @@ public class CameraFollow : MonoBehaviour
     public Transform playerTransform; // Reference to the player's Transform
     private Vector3 offset; // Offset from the player
     private float distanceToPlayer = 3f; // Adjust this value to set how far back the camera should be
-    private float heightAbovePlayer = 2f; // Adjust this value to set the height of the camera above the player
+    private float heightAbovePlayer = 1f; // Adjust this value to set the height of the camera above the player
     private float rightOffset = 3f; // Distance to the right of the player to position the camera
 
     void Start()
