@@ -50,6 +50,7 @@ public class MaskLaunchScript : MonoBehaviour
     {
         canLaunch = true;
         posTimer = 0;
+        gameObject.GetComponent<movement>().enabled = true;
     }
 
     // Update is called once per frame
@@ -101,11 +102,12 @@ public class MaskLaunchScript : MonoBehaviour
                 forceIncreasing = true;
                 chargingForce = false;
                 trajectoryline.enabled= false;
+                gameObject.GetComponent<movement>().enabled = false;
             }
 
             
 
-            if (Input.GetKey(KeyCode.W)){
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
@@ -124,10 +126,10 @@ public class MaskLaunchScript : MonoBehaviour
 
                 
             }
-            if (Input.GetKey(KeyCode.Z)){
+            if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.DownArrow)){
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
-                throwVal += Time.deltaTime * forceRateChange;
+                throwVal -= Time.deltaTime * forceRateChange;
                 if (AngleFab.transform.localEulerAngles.x == 285.0 || AngleFab.transform.localEulerAngles.x <359.0 ) { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);

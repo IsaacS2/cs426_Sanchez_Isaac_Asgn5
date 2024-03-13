@@ -29,14 +29,15 @@ public class movement : MonoBehaviour
         }
            
 
-       if (Input.GetKey(KeyCode.D))
+       if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             
             t.rotation *= Quaternion.Euler(0, rotationSpeed * Time.deltaTime, 0);
             // this.transform.forward=new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
 
         }
-        else if (Input.GetKey(KeyCode.A)){
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
             t.rotation *= Quaternion.Euler(0, -rotationSpeed* Time.deltaTime, 0);
             // this.transform.forward=new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
 
