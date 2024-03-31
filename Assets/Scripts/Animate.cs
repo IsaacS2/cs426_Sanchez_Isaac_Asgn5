@@ -1,18 +1,16 @@
 using UnityEngine;
 
-public class Animate : MonoBehaviour {
-    private Animator anim;
-    public boolean Terrified;
+public class Human : MonoBehaviour
+{
+    private Animator animator;
 
-
-    void Start() {
-        // Get an instance of the Animator component attached to the character.
-        anim = GetComponent<Animator>();
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
     }
 
-    void Update() {
-        if (Terrified == true);
-            
-        }
+    public void TriggerTerrifiedAnimation()
+    {
+        animator.SetTrigger("BecomeTerrified"); 
     }
 }
