@@ -54,10 +54,8 @@ public class MaskLaunchScript : MonoBehaviour
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
         if (AngleFab != null) {  // return camHolder view to behind the launch trajectory of mask
-            //Debug.Log("Current rotation: " + transform.rotation.y + "Previous rotation: " + startRotation.y);
-            //camHolder.transform.rotation = Quaternion.Euler(0, transform.rotation.y - startRotation.y, 0);
-            //Debug.Log(startRotation.y);
-            transform.Rotate(new Vector3(0, transform.rotation.y, 0));
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
         camHolder.GetComponent<movement>().enabled = true;
 
