@@ -160,10 +160,11 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else
         {
-            StopLaunchParticles();
+            
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
+                StopLaunchParticles();
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
                     // activate other player

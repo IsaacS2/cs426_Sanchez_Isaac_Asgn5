@@ -5596,7 +5596,7 @@ MonoBehaviour:
   camHolder: {fileID: 50601988}
   cam: {fileID: 713953669}
   winMessage: {fileID: 1890274507}
-  launchParticles: {fileID: 0}
+  launchParticles: {fileID: 217636242}
 --- !u!65 &375682634
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6036,7 +6036,7 @@ MonoBehaviour:
   camHolder: {fileID: 424309485}
   cam: {fileID: 1958550068}
   winMessage: {fileID: 2014278192}
-  launchParticles: {fileID: 0}
+  launchParticles: {fileID: 1326961856}
 --- !u!65 &709417178
 BoxCollider:
   m_ObjectHideFlags: 0
