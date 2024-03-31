@@ -32,7 +32,6 @@ public class CameraFollow : MonoBehaviour
         //transform.rotation = new Bect0, playerTransform.rotation.y, 0);
         //transform.Rotate(0, playerTransform.rotation.y, 0);
         //transform.Rotate(0, playerTransform.rotation.y, 0);
-        Debug.Log(playerTransform.eulerAngles.y);
         transform.eulerAngles = new Vector3(0, playerTransform.eulerAngles.y, 0);
     }
 

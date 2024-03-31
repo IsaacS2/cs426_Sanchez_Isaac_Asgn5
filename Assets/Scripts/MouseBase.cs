@@ -25,7 +25,9 @@ public class MouseBase : MonoBehaviour
                 timer -= Time.deltaTime;  // counting down before setting trap
                 if (timer <= 0)
                 {
+                    Debug.Log("Drop the trap!");
                     trapKiller.GetComponent<MouseTrap>().DeconstraintX();
+                    trapKiller = null;
                 }
             }
         }
@@ -34,8 +36,10 @@ public class MouseBase : MonoBehaviour
     // Update is called once per frame
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("mask Obtained!");
         if (collision.gameObject.CompareTag("Player"))  // mask entered trap
         {
+            Debug.Log("mask Obtained!");
             maskOn = true;
             currentMask = collision.gameObject;
         }

@@ -9,7 +9,7 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, turnLost, sticky;
+    private bool canLaunch, forceIncreasing, chargingForce, turnLost, sticky, trapContact;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation; 
@@ -163,14 +163,26 @@ public class MaskLaunchScript : MonoBehaviour
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
-                if ((!canLaunch || turnLost) && !winMessage.isActiveAndEnabled)
+                Debug.Log("0");
+                if ((!canLaunch || turnLost) && !winMessage.isActiveAndEnabled && !trapContact)
                 {
+                    Debug.Log("1");
                     if (turnLost)
                     {
-                        turnLost = false;
-                        statusMessage.gameObject.SetActive(false);
-                        Destroy(killTrap);
+                        Debug.Log("2");
+                        if (!trapContact)
+                        {
+                            turnLost = false;
+                            statusMessage.gameObject.SetActive(false);
+                            Destroy(killTrap);
+                            rb.constraints = ~RigidbodyConstraints.FreezeAll;
+                        }
+                        else {
+                            trapContact = false;
+                            Debug.Log("3");
+                        }
                     }
+                    Debug.Log("4");
                     // activate other player and deactivate camera
                     nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
                     revertCamera();  // this player's camera deactivated first to switch to other camera
@@ -196,7 +208,8 @@ public class MaskLaunchScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Trap") && !turnLost)
         {
             Debug.Log("Trap obtained");
-            posTimer = 3f;  // provide more time to see if player settled in trap
+            //posTimer = 3f;  // provide more time to see if player settled in trap
+            trapContact = true;
         }
     }
 
@@ -204,7 +217,7 @@ public class MaskLaunchScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap") && !turnLost)
         {
-            posTimer = 1;  // player left trap, set timer to default
+            trapContact = false;
         }
     }
 
@@ -239,5 +252,6 @@ public class MaskLaunchScript : MonoBehaviour
         statusMessage.gameObject.SetActive(true);
         statusMessage.text = "Trapped! Lost 1 turn!";
         killTrap = killer;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
