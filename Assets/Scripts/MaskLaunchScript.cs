@@ -20,6 +20,8 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
+    [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
@@ -65,6 +67,7 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
+                
             }
 
             // currently charging force
@@ -86,6 +89,7 @@ public class MaskLaunchScript : MonoBehaviour
                 {
                     forceIncreasing = true;
                 }
+                
             }
 
             
@@ -106,6 +110,8 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= false;
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
+                PlayLaunchParticles(); 
+                
             }
 
             
@@ -154,6 +160,7 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else
         {
+            StopLaunchParticles();
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
@@ -182,6 +189,20 @@ public class MaskLaunchScript : MonoBehaviour
         {
             winMessage.gameObject.SetActive(true);
         }
+    }
+
+     // Call this method to play the launch particles
+    private void PlayLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Play();
+    }
+
+    // Call this method to stop the launch particles
+    private void StopLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Stop();
     }
 
     public float getMaxForce()
