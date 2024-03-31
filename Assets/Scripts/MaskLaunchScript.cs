@@ -12,7 +12,8 @@ public class MaskLaunchScript : MonoBehaviour
     private bool canLaunch, forceIncreasing, chargingForce, turnLost, sticky;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
-    private Vector3 prevLocation, startLocation, cameraDistance;
+    private Vector3 prevLocation, startLocation; 
+    private Quaternion startRotation;
     private LineRenderer trajectoryline;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5;
@@ -37,6 +38,8 @@ public class MaskLaunchScript : MonoBehaviour
         forceIncreasing = true;
         prevLocation = rb.position;
         startLocation = rb.position;
+        //startRotation = transform.rotation.eulerAngles;
+       // Debug.Log(startRotation);
 
         // angle line values
         trajectoryline= GetComponent<LineRenderer>();
@@ -50,7 +53,12 @@ public class MaskLaunchScript : MonoBehaviour
         canLaunch = true;
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
-        //camHolder.transform.position = 
+        if (AngleFab != null) {  // return camHolder view to behind the launch trajectory of mask
+            //Debug.Log("Current rotation: " + transform.rotation.y + "Previous rotation: " + startRotation.y);
+            //camHolder.transform.rotation = Quaternion.Euler(0, transform.rotation.y - startRotation.y, 0);
+            //Debug.Log(startRotation.y);
+            transform.Rotate(new Vector3(0, transform.rotation.y, 0));
+        }
         camHolder.GetComponent<movement>().enabled = true;
 
         if (turnLost)
@@ -95,7 +103,6 @@ public class MaskLaunchScript : MonoBehaviour
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
-                Debug.Log(forceVal);  // display charged force
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = 1f;  // start movement-tracking timer
@@ -111,17 +118,18 @@ public class MaskLaunchScript : MonoBehaviour
                 camHolder.GetComponent<movement>().enabled = false;
             }            
 
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
                 
-                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) { 
+                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) 
+                { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
                     Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
-                   
                 }
 
                 // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
@@ -148,7 +156,6 @@ public class MaskLaunchScript : MonoBehaviour
     {
         if (Vector3.Distance(prevLocation, rb.position) > maxPositionDiff)  // mask is moving
         {
-            Debug.Log(Vector3.Distance(prevLocation, rb.position));
             prevLocation = rb.position;
             posTimer = 1f;  // reset movement-tracking timer
         }
