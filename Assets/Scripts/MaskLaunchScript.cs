@@ -12,15 +12,17 @@ public class MaskLaunchScript : MonoBehaviour
     private bool canLaunch, forceIncreasing, chargingForce, turnLost, sticky;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
-    private Vector3 prevLocation, startLocation; 
+    private Vector3 prevLocation, startLocation, spawnLocation; 
     private Quaternion startRotation;
     private LineRenderer trajectoryline;
+    private GameObject killTrap;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5;
     [SerializeField] private GameObject nextPlayer;
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
+    [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.01f;
     private float rotationSpeed = 5.0f; 
 
@@ -38,9 +40,8 @@ public class MaskLaunchScript : MonoBehaviour
         forceIncreasing = true;
         prevLocation = rb.position;
         startLocation = rb.position;
-        //startRotation = transform.rotation.eulerAngles;
-       // Debug.Log(startRotation);
-
+        spawnLocation = rb.position;
+        
         // angle line values
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
@@ -68,7 +69,7 @@ public class MaskLaunchScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (canLaunch && !turnLost)
+        if (canLaunch)
         {
             // checking if mask can be launched now
             if (Input.GetButtonDown("Jump") && !chargingForce)
@@ -147,7 +148,7 @@ public class MaskLaunchScript : MonoBehaviour
                     ShowTrajectory(rb.position,maskvelocity);
                 }
             }
-         }
+        }
     }
 
     void FixedUpdate()
@@ -164,6 +165,12 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 if ((!canLaunch || turnLost) && !winMessage.isActiveAndEnabled)
                 {
+                    if (turnLost)
+                    {
+                        turnLost = false;
+                        statusMessage.gameObject.SetActive(false);
+                        Destroy(killTrap);
+                    }
                     // activate other player and deactivate camera
                     nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
                     revertCamera();  // this player's camera deactivated first to switch to other camera
@@ -184,6 +191,20 @@ public class MaskLaunchScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true);
+        }
+
+        if (collision.gameObject.CompareTag("Trap") && !turnLost)
+        {
+            Debug.Log("Trap obtained");
+            posTimer = 3f;  // provide more time to see if player settled in trap
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Trap") && !turnLost)
+        {
+            posTimer = 1;  // player left trap, set timer to default
         }
     }
 
@@ -212,8 +233,11 @@ public class MaskLaunchScript : MonoBehaviour
         trajectoryline.SetPositions(points);
     }
 
-    public void loseTurn()
+    public void loseTurn(GameObject killer)
     {
         turnLost = true;
+        statusMessage.gameObject.SetActive(true);
+        statusMessage.text = "Trapped! Lost 1 turn!";
+        killTrap = killer;
     }
 }
