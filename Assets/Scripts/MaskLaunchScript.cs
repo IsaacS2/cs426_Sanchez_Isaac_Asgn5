@@ -9,10 +9,10 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce;
+    private bool canLaunch, forceIncreasing, chargingForce, turnLost, sticky;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
-    private Vector3 prevLocation, startLocation;
+    private Vector3 prevLocation, startLocation, cameraDistance;
     private LineRenderer trajectoryline;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5;
@@ -20,6 +20,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
+    [SerializeField] private float maxPositionDiff = 0.01f;
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
@@ -27,10 +28,6 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
-
-    // up/down angle values
-    private int verticalValue;
-    private int forwardValue;
 
     void Start()
     {
@@ -40,11 +37,12 @@ public class MaskLaunchScript : MonoBehaviour
         forceIncreasing = true;
         prevLocation = rb.position;
         startLocation = rb.position;
+
+        // angle line values
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
         trajectoryline.enabled= false;
         AngleFab= this.transform.Find("Angle").gameObject;
-
     }
 
     private void OnEnable()
@@ -52,13 +50,19 @@ public class MaskLaunchScript : MonoBehaviour
         canLaunch = true;
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
+        //camHolder.transform.position = 
         camHolder.GetComponent<movement>().enabled = true;
+
+        if (turnLost)
+        {
+            posTimer = 1;
+        }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (canLaunch)
+        if (canLaunch && !turnLost)
         {
             // checking if mask can be launched now
             if (Input.GetButtonDown("Jump") && !chargingForce)
@@ -88,8 +92,6 @@ public class MaskLaunchScript : MonoBehaviour
                 }
             }
 
-            
-
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
@@ -98,6 +100,7 @@ public class MaskLaunchScript : MonoBehaviour
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = 1f;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
+
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
@@ -106,9 +109,7 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= false;
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
-            }
-
-            
+            }            
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
                 trajectoryline.enabled= true;
@@ -122,14 +123,14 @@ public class MaskLaunchScript : MonoBehaviour
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
                    
                 }
+
                 // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
                 //     AngleFab.transform.forward=new Vector3(AngleFab.transform.forward.x, AngleFab.transform.forward.y+0.1f, AngleFab.transform.forward.z);
                 //     Debug.Log(AngleFab.transform.rotation.eulerAngles);
                 // }
-
-                
             }
-            if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.DownArrow)){
+
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;
@@ -139,16 +140,15 @@ public class MaskLaunchScript : MonoBehaviour
                     Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                     ShowTrajectory(rb.position,maskvelocity);
                 }
-                
             }
-
          }
     }
 
     void FixedUpdate()
     {
-        if (prevLocation != rb.position)  // mask is moving
+        if (Vector3.Distance(prevLocation, rb.position) > maxPositionDiff)  // mask is moving
         {
+            Debug.Log(Vector3.Distance(prevLocation, rb.position));
             prevLocation = rb.position;
             posTimer = 1f;  // reset movement-tracking timer
         }
@@ -157,19 +157,18 @@ public class MaskLaunchScript : MonoBehaviour
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
-                if (!canLaunch && !winMessage.isActiveAndEnabled)
+                if ((!canLaunch || turnLost) && !winMessage.isActiveAndEnabled)
                 {
-                    // activate other player
-                    // deactivate camera
+                    // activate other player and deactivate camera
                     nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
-                    revertCamera();
+                    revertCamera();  // this player's camera deactivated first to switch to other camera
                     nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
                     enabled = false;
                 }
             }
         }
 
-        if (rb.position.y < -10)
+        if (rb.position.y < -10)  // player off map
         {
             rb.position = startLocation;
         }
@@ -177,7 +176,6 @@ public class MaskLaunchScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(winMessage.isActiveAndEnabled);
         if (collision.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true);
@@ -198,6 +196,7 @@ public class MaskLaunchScript : MonoBehaviour
     {
         cam.enabled = !cam.enabled;
     }
+
     void ShowTrajectory(Vector3 origin, Vector3 Speed){
         Vector3[] points= new Vector3[100];
         trajectoryline.positionCount= points.Length;
@@ -206,5 +205,10 @@ public class MaskLaunchScript : MonoBehaviour
             points[i] = origin + Speed * time + 0.5f * Physics.gravity * time * time;
         }
         trajectoryline.SetPositions(points);
+    }
+
+    public void loseTurn()
+    {
+        turnLost = true;
     }
 }
