@@ -23,7 +23,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
     [SerializeField] private TextMeshProUGUI statusMessage;
-    [SerializeField] private float maxPositionDiff = 0.01f;
+    [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
 
     private float rotationSpeed = 5.0f; 
@@ -161,7 +161,6 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else
         {
-            
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
@@ -195,28 +194,23 @@ public class MaskLaunchScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
-        {
-            winMessage.gameObject.SetActive(true);
-        }
-
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Trap"))
         {
             statusMessage.gameObject.SetActive(true);
-            statusMessage.text = "Made Contact with trap!";
+            statusMessage.text = "Oops, trap!";
             trapContact = true;
 
             if (other.gameObject.GetComponent<MouseDetector>() != null)
             {
                 killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
             }
+        }
+
+        if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
+        {
+            winMessage.gameObject.SetActive(true);
         }
     }
 
