@@ -115,7 +115,6 @@ public class MaskLaunchScript : MonoBehaviour
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
                 PlayLaunchParticles(); 
-                
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))

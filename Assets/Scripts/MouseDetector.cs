@@ -8,7 +8,6 @@ public class MouseDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Object detected");
         if (other.gameObject.CompareTag("Player"))
         {
             if (trapKiller != null) {

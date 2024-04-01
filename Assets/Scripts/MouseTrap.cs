@@ -9,6 +9,5 @@ public class MouseTrap : MonoBehaviour
     {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = rb.constraints ^ RigidbodyConstraints.FreezeRotationX;
-        Debug.Log("hinge dropped");
     }
 }
