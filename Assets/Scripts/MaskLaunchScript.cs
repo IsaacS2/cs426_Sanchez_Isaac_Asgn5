@@ -24,6 +24,8 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI winMessage;
     [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.01f;
+    [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
@@ -71,6 +73,7 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
+                
             }
 
             // currently charging force
@@ -92,6 +95,7 @@ public class MaskLaunchScript : MonoBehaviour
                 {
                     forceIncreasing = true;
                 }
+                
             }
 
             // force charging button (space) has been released; time to launch mask!
@@ -110,7 +114,9 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= false;
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
-            }            
+                PlayLaunchParticles(); 
+                
+            }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
@@ -155,9 +161,11 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else
         {
+            
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
+                StopLaunchParticles();
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
                     if (trapContact)
@@ -210,6 +218,20 @@ public class MaskLaunchScript : MonoBehaviour
                 killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
             }
         }
+    }
+
+     // Call this method to play the launch particles
+    private void PlayLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Play();
+    }
+
+    // Call this method to stop the launch particles
+    private void StopLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Stop();
     }
 
     public float getMaxForce()
