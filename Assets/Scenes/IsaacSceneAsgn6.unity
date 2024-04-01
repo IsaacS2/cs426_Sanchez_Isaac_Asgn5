@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 7a66aaa0d876ef6458719477647f4757, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -219,7 +219,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.9996578, g: 0.48742133, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1192,7 +1192,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf2bbaae02d47ef4ab2b421a5ab77dd0, type: 2}
+  - {fileID: 2100000, guid: 372e50c8d7fdfb5438f043861c62ccc5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1528,7 +1528,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ef5cf9f2df3f504ab156bdbdf70d058, type: 2}
+  - {fileID: 2100000, guid: c1d9c7bbf79aef8428e05168515c1f02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2854,7 +2854,7 @@ Light:
   m_Type: 4
   m_Shape: 0
   m_Color: {r: 0.654088, g: 0.20774487, b: 0.20774487, a: 1}
-  m_Intensity: 75
+  m_Intensity: 1000
   m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
