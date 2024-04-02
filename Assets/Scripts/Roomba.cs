@@ -44,11 +44,16 @@ public class Roomba : MonoBehaviour
             }
         }*/
 
-        Debug.Log(Vector3.Distance(target, transform.position));
+        //Debug.Log("Distance: " + Vector3.Distance(target, transform.position) 
+                    //+ ", target: " + target + ", position: " + transform.position);
         if (Vector3.Distance(transform.position, target) <= minTargetDistance) // time to switch patrolling targets
         {
             if (state == 0 || state == 2)  // in idle state
             {
+                if (state == 0)
+                {
+                    Debug.Log("switch state 0");
+                }
                 patrollingInt++;
                 if (patrollingInt >= patrollingVectors.Length)
                 {
@@ -56,13 +61,21 @@ public class Roomba : MonoBehaviour
                 }
 
                 target = patrollingVectors[patrollingInt];
+
+                if (state == 2)  // in returning state
+                {
+                    Debug.Log("switch state 2");
+                    state = 0;
+                    capturedMask = null;
+                    GetComponent<BoxCollider>().enabled = true;
+                }
             }
 
             else if (state == 1)  // in maskAbsorbed state
             {
-                Debug.Log("switch state");
+                Debug.Log("switch state 1");
                 capturedMask.GetComponent<MaskLaunchScript>().RoombaReturning();
-                capturedMask = null;
+                GetComponent<BoxCollider>().enabled = false;
                 state = 2;
                 var currentShortestDistance = 10000f;
                 for (int i = 0; i < patrollingVectors.Length; i++)
@@ -76,11 +89,6 @@ public class Roomba : MonoBehaviour
                 }
                 target = patrollingVectors[patrollingInt];
             }
-            
-            if (state == 2)  // in returning state
-            {
-                state = 0;
-            }
 
             agent.SetDestination(target);
         }
@@ -88,7 +96,7 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player") && capturedMask == null)
+        if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
             if (collision.gameObject.GetComponent<MaskLaunchScript>() != null) {
                 Debug.Log("Mask touched!");

@@ -70,7 +70,7 @@ public class MaskLaunchScript : MonoBehaviour
         if (canLaunch)
         {
             // checking if mask can be launched now
-            if (Input.GetButtonDown("Jump") && !chargingForce)
+            if (Input.GetButtonDown("Jump") && !chargingForce && roombaTrap == null)
             {
                 //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
