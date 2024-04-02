@@ -18,7 +18,7 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject killTrap;
     private GameObject roombaTrap;
 
-    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f;
+    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
@@ -34,6 +34,7 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
+    int trap_cond= 0;
 
     void Start()
     {
@@ -106,7 +107,7 @@ public class MaskLaunchScript : MonoBehaviour
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
-
+                temp_forceVal= forceVal;
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
@@ -151,6 +152,7 @@ public class MaskLaunchScript : MonoBehaviour
             }
         }
     }
+    
 
     void FixedUpdate()
     {
@@ -172,6 +174,24 @@ public class MaskLaunchScript : MonoBehaviour
                 StopLaunchParticles();
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
+                    // activate other player
+                    // deactivate camera
+                    if(nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
+                        nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
+                        revertCamera();
+                        nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
+                        enabled = false;
+                    }
+                    else{
+                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=0;
+                        enabled=true;
+                        // statusMessage.gameObject.SetActive(true);
+                        // statusMessage.text = "Xtra Turn!";
+
+                        OnEnable();
+
+                    }
+                    
                     if (trapContact)
                     {
                         trapContact = false;
@@ -183,13 +203,8 @@ public class MaskLaunchScript : MonoBehaviour
                         trapContact = false;
                         Destroy(killTrap);
                     }
-
-                    // activate other player and deactivate camera
-                    nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
-                    revertCamera();  // this player's camera deactivated first to switch to other camera
-                    nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
-                    enabled = false;
                 }
+                
             }
         }
 
@@ -201,6 +216,7 @@ public class MaskLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("collided meow");
         if (other.gameObject.CompareTag("Trap"))
         {
             statusMessage.gameObject.SetActive(true);
@@ -215,14 +231,31 @@ public class MaskLaunchScript : MonoBehaviour
 
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
-            winMessage.gameObject.SetActive(true);
+            winMessage.gameObject.SetActive(true); 
+        }
+        else if(other.gameObject.CompareTag("Trap2") && trap_cond==0){
+            // statusMessage.gameObject.SetActive(true);
+            // statusMessage.text = "Oops, trap! Skip a turn";
+            trap_cond=1;
+        }
+        else if (other.gameObject.CompareTag("trampoline"))
+        {
+
+            // Add the bounce force to the object's Rigidbody
+            
+            if (rb != null)
+            {
+                rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+            }
+        }
+        else if (other.gameObject.CompareTag("spider")){
+            rb.position = startLocation;
+            other.gameObject.GetComponent<SpiderController>().detected= false;
+            other.gameObject.GetComponent<SpiderController>().enabled= false;
+            other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");
+
         }
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Touched something!");
-    }*/
 
      // Call this method to play the launch particles
     private void PlayLaunchParticles()
