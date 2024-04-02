@@ -9,17 +9,24 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
-    private Vector3 prevLocation, startLocation;
+    private Vector3 prevLocation, startLocation, spawnLocation; 
+    private Quaternion startRotation;
     private LineRenderer trajectoryline;
+    private GameObject killTrap;
+    private GameObject roombaTrap;
 
-    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5;
+    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f;
     [SerializeField] private GameObject nextPlayer;
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
     [SerializeField] private TextMeshProUGUI winMessage;
+    [SerializeField] private TextMeshProUGUI statusMessage;
+    [SerializeField] private float maxPositionDiff = 0.075f;
+    [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
@@ -29,10 +36,6 @@ public class MaskLaunchScript : MonoBehaviour
     private float throwVal= 0;
     int trap_cond= 0;
 
-    // up/down angle values
-    private int verticalValue;
-    private int forwardValue;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,11 +44,13 @@ public class MaskLaunchScript : MonoBehaviour
         forceIncreasing = true;
         prevLocation = rb.position;
         startLocation = rb.position;
+        spawnLocation = rb.position;
+        
+        // angle line values
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
         trajectoryline.enabled= false;
         AngleFab= this.transform.Find("Angle").gameObject;
-
     }
 
     private void OnEnable()
@@ -53,6 +58,10 @@ public class MaskLaunchScript : MonoBehaviour
         canLaunch = true;
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
+        if (AngleFab != null) {  // return camHolder view to behind the launch trajectory of mask
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        }
         camHolder.GetComponent<movement>().enabled = true;
     }
 
@@ -66,6 +75,7 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
+                
             }
 
             // currently charging force
@@ -87,18 +97,17 @@ public class MaskLaunchScript : MonoBehaviour
                 {
                     forceIncreasing = true;
                 }
+                
             }
-
-            
 
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
-                Debug.Log(forceVal);  // display charged force
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
-                posTimer = 1f;  // start movement-tracking timer
+                posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
+
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
@@ -107,30 +116,30 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= false;
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
+                PlayLaunchParticles(); 
             }
 
-            
-
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
                 
-                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) { 
+                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) 
+                { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
                     Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
-                   
                 }
+
                 // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
                 //     AngleFab.transform.forward=new Vector3(AngleFab.transform.forward.x, AngleFab.transform.forward.y+0.1f, AngleFab.transform.forward.z);
                 //     Debug.Log(AngleFab.transform.rotation.eulerAngles);
                 // }
-
-                
             }
-            if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.DownArrow)){
+
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;
@@ -140,24 +149,28 @@ public class MaskLaunchScript : MonoBehaviour
                     Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                     ShowTrajectory(rb.position,maskvelocity);
                 }
-                
             }
-
-         }
+        }
     }
 
     void FixedUpdate()
     {
-        if (prevLocation != rb.position)  // mask is moving
+        if (roombaTrap != null)
+        {
+            rb.position = roombaTrap.transform.position;
+        }
+
+        if (Vector3.Distance(prevLocation, rb.position) > maxPositionDiff)  // mask is moving
         {
             prevLocation = rb.position;
-            posTimer = 1f;  // reset movement-tracking timer
+            posTimer = defaultTimeVal;  // reset movement-tracking timer
         }
         else
         {
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
+                StopLaunchParticles();
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
                     // activate other player
@@ -169,30 +182,66 @@ public class MaskLaunchScript : MonoBehaviour
                         enabled = false;
                     }
                     else{
-                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=1;
+                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=0;
                     }
                     
+                    if (trapContact)
+                    {
+                        trapContact = false;
+                        statusMessage.gameObject.SetActive(false);
+                        //rb.constraints = ~RigidbodyConstraints.FreezeAll;
+                    }
+                    else if (killTrap != null) {
+                        Debug.Log("Trap Destroyed");
+                        trapContact = false;
+                        Destroy(killTrap);
+                    }
                 }
                 
             }
         }
 
-        if (rb.position.y < -10)
+        if (rb.position.y < -10)  // player off map
         {
             rb.position = startLocation;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(winMessage.isActiveAndEnabled);
-        if (collision.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
+        if (other.gameObject.CompareTag("Trap"))
+        {
+            statusMessage.gameObject.SetActive(true);
+            statusMessage.text = "Oops, trap!";
+            trapContact = true;
+
+            if (other.gameObject.GetComponent<MouseDetector>() != null)
+            {
+                killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
+            }
+        }
+
+        if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true);
         }
         else if(collision.gameObject.CompareTag("Trap") && trap_cond==0){
             trap_cond=1;
         }
+    }
+
+     // Call this method to play the launch particles
+    private void PlayLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Play();
+    }
+
+    // Call this method to stop the launch particles
+    private void StopLaunchParticles()
+    {
+        if(launchParticles != null)
+            launchParticles.Stop();
     }
 
     public float getMaxForce()
@@ -209,6 +258,7 @@ public class MaskLaunchScript : MonoBehaviour
     {
         cam.enabled = !cam.enabled;
     }
+
     void ShowTrajectory(Vector3 origin, Vector3 Speed){
         Vector3[] points= new Vector3[100];
         trajectoryline.positionCount= points.Length;
@@ -217,5 +267,21 @@ public class MaskLaunchScript : MonoBehaviour
             points[i] = origin + Speed * time + 0.5f * Physics.gravity * time * time;
         }
         trajectoryline.SetPositions(points);
+    }
+
+    public Vector3 RoombaTriggered(GameObject roomba)
+    {
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        roombaTrap = roomba;
+        return spawnLocation;
+    }
+
+    public void RoombaReturning()
+    {
+        GetComponent<Renderer>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        roombaTrap = null;
+        rb.position = spawnLocation;
     }
 }
