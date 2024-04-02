@@ -1,5 +1,6 @@
 Schedule and tasks:
 - Create mouse trap; by Sunday at 11:59pm (estimate time: 5 hours)
 - Add mask textures; by Sunday at 11:59pm (estimate time: 1 hours)
+- Add Roomba light: by Monday at 11:59pm (estimate time: 2 hours)
 - Complete Roomba AI; by Monday at 11:59pm (estimate time: 4 hours)
 - Add mouse mecanim: by Tuesday at 11:59pm (estimate time: 1 hour)
