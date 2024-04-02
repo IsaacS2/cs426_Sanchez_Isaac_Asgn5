@@ -250,6 +250,22 @@ public class MaskLaunchScript : MonoBehaviour
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
+        // else if (other.gameObject.CompareTag("spider")){
+        //     rb.position = startLocation;
+        //     other.gameObject.GetComponent<SpiderController>().detected= false;
+        //      other.gameObject.GetComponent<SpiderController>().enabled= false;
+
+        // }
+    }
+    void OnCollisionEnter(Collision other){
+        Debug.Log("something collided with player");
+        if (other.collider.gameObject.CompareTag("spider")){
+            Debug.Log("spider collided with player");
+            rb.position = startLocation; 
+            other.gameObject.GetComponent<SpiderController>().detected= false;
+             other.gameObject.GetComponent<SpiderController>().enabled= false;
+
+        }
     }
 
      // Call this method to play the launch particles
