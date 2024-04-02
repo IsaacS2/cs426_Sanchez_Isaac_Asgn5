@@ -27,6 +27,7 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
+    int trap_cond= 0;
 
     // up/down angle values
     private int verticalValue;
@@ -161,11 +162,18 @@ public class MaskLaunchScript : MonoBehaviour
                 {
                     // activate other player
                     // deactivate camera
-                    nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
-                    revertCamera();
-                    nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
-                    enabled = false;
+                    if(nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
+                        nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
+                        revertCamera();
+                        nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
+                        enabled = false;
+                    }
+                    else{
+                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=1;
+                    }
+                    
                 }
+                
             }
         }
 
@@ -181,6 +189,9 @@ public class MaskLaunchScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true);
+        }
+        else if(collision.gameObject.CompareTag("Trap") && trap_cond==0){
+            trap_cond=1;
         }
     }
 
