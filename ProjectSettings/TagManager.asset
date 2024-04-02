@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Face
   - Trap
+  - Trap2
+  - trampoline
   layers:
   - Default
   - TransparentFX

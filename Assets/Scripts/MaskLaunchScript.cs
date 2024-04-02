@@ -18,7 +18,7 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject killTrap;
     private GameObject roombaTrap;
 
-    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f;
+    [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
     [SerializeField] private GameObject camHolder;
     [SerializeField] private Camera cam;
@@ -107,7 +107,7 @@ public class MaskLaunchScript : MonoBehaviour
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
-
+                temp_forceVal= forceVal;
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
@@ -183,6 +183,12 @@ public class MaskLaunchScript : MonoBehaviour
                     }
                     else{
                         nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=0;
+                        enabled=true;
+                        // statusMessage.gameObject.SetActive(true);
+                        // statusMessage.text = "Xtra Turn!";
+
+                        OnEnable();
+
                     }
                     
                     if (trapContact)
@@ -209,6 +215,7 @@ public class MaskLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("collided meow");
         if (other.gameObject.CompareTag("Trap"))
         {
             statusMessage.gameObject.SetActive(true);
@@ -223,10 +230,25 @@ public class MaskLaunchScript : MonoBehaviour
 
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
-            winMessage.gameObject.SetActive(true);
+            winMessage.gameObject.SetActive(true); 
         }
-        else if(collision.gameObject.CompareTag("Trap") && trap_cond==0){
+        else if(other.gameObject.CompareTag("Trap2") && trap_cond==0){
+            // statusMessage.gameObject.SetActive(true);
+            // statusMessage.text = "Oops, trap! Skip a turn";
             trap_cond=1;
+        }
+        else if (other.gameObject.CompareTag("trampoline"))
+        {
+            Debug.Log("trampski");
+            // Calculate the bounce direction (90 degrees downwards)
+            Vector3 bounceDirection = -transform.up; // -transform.up is equivalent to (0, -1, 0)
+
+            // Add the bounce force to the object's Rigidbody
+            
+            if (rb != null)
+            {
+                rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+            }
         }
     }
 
