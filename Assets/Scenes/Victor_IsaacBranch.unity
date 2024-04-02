@@ -699,6 +699,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 26186db467c8d4167b9ab1ef2e84fe70, type: 3}
+      propertyPath: m_TagString
+      value: spider
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -712,6 +716,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26186db467c8d4167b9ab1ef2e84fe70, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1821326211}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26186db467c8d4167b9ab1ef2e84fe70, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1821326212}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 26186db467c8d4167b9ab1ef2e84fe70, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1821326213}
   m_SourcePrefab: {fileID: 100100000, guid: 26186db467c8d4167b9ab1ef2e84fe70, type: 3}
 --- !u!1001 &296137142
 PrefabInstance:
@@ -11780,6 +11790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717f3cc4983264a8ab7476ecf824b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   target: {fileID: 0}
   detected: 0
 --- !u!54 &1821326209
@@ -11824,14 +11835,58 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2.2202656
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.61012626, z: 0}
+--- !u!136 &1821326212
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821326207}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3546607
+  m_Height: 2.1181362
+  m_Direction: 1
+  m_Center: {x: -0.049104907, y: 0.5590626, z: 0.09623442}
+--- !u!95 &1821326213
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821326207}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aeb7db868031947209b47dd172f8dedb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1822250271
 GameObject:
   m_ObjectHideFlags: 0

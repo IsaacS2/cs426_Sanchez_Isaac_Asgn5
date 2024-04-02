@@ -152,6 +152,7 @@ public class MaskLaunchScript : MonoBehaviour
             }
         }
     }
+    
 
     void FixedUpdate()
     {
@@ -239,9 +240,6 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("trampoline"))
         {
-            Debug.Log("trampski");
-            // Calculate the bounce direction (90 degrees downwards)
-            Vector3 bounceDirection = -transform.up; // -transform.up is equivalent to (0, -1, 0)
 
             // Add the bounce force to the object's Rigidbody
             
@@ -250,23 +248,17 @@ public class MaskLaunchScript : MonoBehaviour
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
-        // else if (other.gameObject.CompareTag("spider")){
-        //     rb.position = startLocation;
-        //     other.gameObject.GetComponent<SpiderController>().detected= false;
-        //      other.gameObject.GetComponent<SpiderController>().enabled= false;
-
-        // }
-    }
-    void OnCollisionEnter(Collision other){
-        Debug.Log("something collided with player");
-        if (other.collider.gameObject.CompareTag("spider")){
-            Debug.Log("spider collided with player");
-            rb.position = startLocation; 
+        else if (other.gameObject.CompareTag("spider")){
+            rb.position = startLocation;
             other.gameObject.GetComponent<SpiderController>().detected= false;
-             other.gameObject.GetComponent<SpiderController>().enabled= false;
+            other.gameObject.GetComponent<SpiderController>().enabled= false;
+            other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");
 
         }
     }
+
+    
+   
 
      // Call this method to play the launch particles
     private void PlayLaunchParticles()
