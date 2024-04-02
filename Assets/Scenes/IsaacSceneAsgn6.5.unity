@@ -14435,6 +14435,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 440892757712257446, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
+      propertyPath: m_WalkableMask
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 440892757712257446, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 955394360709267691, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
       propertyPath: patrollingTargets.Array.data[0]
       value: 
@@ -14443,26 +14451,6 @@ PrefabInstance:
       propertyPath: patrollingTargets.Array.data[1]
       value: 
       objectReference: {fileID: 2039707642}
-    - target: {fileID: 1061361329867131612, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541962565807365399, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
-      propertyPath: m_Color.b
-      value: 0.043708652
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541962565807365399, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
-      propertyPath: m_Color.g
-      value: 0.043708652
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541962565807365399, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
-      propertyPath: m_Color.r
-      value: 0.81761
-      objectReference: {fileID: 0}
-    - target: {fileID: 2541962565807365399, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
-      propertyPath: m_Intensity
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 2696386696377504648, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.9

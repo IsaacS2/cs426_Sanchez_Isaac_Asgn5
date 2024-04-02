@@ -90,6 +90,7 @@ public class Roomba : MonoBehaviour
                 target = patrollingVectors[patrollingInt];
             }
 
+            Debug.Log("Target changed!");
             agent.SetDestination(target);
         }
     }
@@ -104,6 +105,8 @@ public class Roomba : MonoBehaviour
                 var maskVector = collision.gameObject.GetComponent<MaskLaunchScript>().RoombaTriggered(gameObject);
                 target = maskVector;
                 capturedMask = collision.gameObject;
+                Debug.Log("Target changed!");
+
                 agent.SetDestination(target);
             }
         }
