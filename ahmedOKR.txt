@@ -1,7 +1,20 @@
 AhmedOKR.txt
 
+
+===============================Asgn 5===============================
+
 Schedule and deliverable:
 - Create a sphere in the center of the level to act as a focal point -- Sun by 4pm (estimate: 2 hrs)
 - Keep the camera on the current player from rotating constantly while being launched; keep the camera steady during movement -- Fri by 5pm (estimate: 3 hrs)
 - Test character launch and plane interaction to ensure smooth gameplay -- Mon by 10am (estimate: 1.5 hrs)
 
+
+
+===============================Asgn 6===============================
+
+Schedule and deliverable:
+- Particle effects for launching and landing -- sun by 6pm (3 hours)
+- Spot light above human -- sun by 1pm (1 hour)
+- Human textures from mixamo -- sun by 11am (2 hours)
+- Flocking used on flies/bees that move around the sticky traps, indicating that the player should not land near the trap -- Tuesday 4:30pm (5 hours)
+- Adding Human in the center of the room -- sun by 12pm (1 hour)
