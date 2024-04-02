@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 567443457}
   - component: {fileID: 567443456}
   - component: {fileID: 567443455}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: P2Mask
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1944,7 +1944,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -6201,7 +6201,7 @@ GameObject:
   - component: {fileID: 638404115}
   - component: {fileID: 638404114}
   - component: {fileID: 638404113}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: P1Mask
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6845,8 +6845,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.5
-  m_Speed: 20
-  m_Acceleration: 10
+  m_Speed: 30
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -6869,7 +6869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b124a909d2cbc554fbe7f73d7ef6975e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTargetDistance: 0.1
+  minTargetDistance: 0.75
   agent: {fileID: 712651364}
   patrollingTargets:
   - {fileID: 2039707643}
@@ -6894,7 +6894,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &795824666
 GameObject:
   m_ObjectHideFlags: 0
@@ -7286,7 +7286,7 @@ Transform:
   m_GameObject: {fileID: 1013202414}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.902765, y: 281.09473, z: 26.569706}
+  m_LocalPosition: {x: -26.902765, y: 280.6, z: 26.569706}
   m_LocalScale: {x: 10, y: 50, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7362,7 +7362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1076525216
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7638,7 +7638,7 @@ Transform:
   m_GameObject: {fileID: 1098236117}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.502766, y: 258.59473, z: 73.869705}
+  m_LocalPosition: {x: -13.502766, y: 258.1, z: 73.869705}
   m_LocalScale: {x: 15, y: 5, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7795,7 +7795,7 @@ Transform:
   m_GameObject: {fileID: 1295770918}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -52.002766, y: 281.09473, z: 14.069706}
+  m_LocalPosition: {x: -52.002766, y: 280.6, z: 14.069706}
   m_LocalScale: {x: 106, y: 50, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7921,7 +7921,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1340021361
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8854,7 +8854,7 @@ Transform:
   m_GameObject: {fileID: 1506091896}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.4972343, y: 281.09473, z: 59.069706}
+  m_LocalPosition: {x: 3.4972343, y: 280.6, z: 59.069706}
   m_LocalScale: {x: 10, y: 50, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8923,7 +8923,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 1.3333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 807c406ee5c97e64fb40e868190b17cb, type: 2}
   m_BuildHeightMesh: 0
@@ -9042,7 +9042,7 @@ Transform:
   m_GameObject: {fileID: 1533292644}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -52.002766, y: 281.09473, z: 104.0697}
+  m_LocalPosition: {x: -52.002766, y: 280.6, z: 104.0697}
   m_LocalScale: {x: 105, y: 50, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9301,7 +9301,7 @@ Transform:
   m_GameObject: {fileID: 1703925655}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -106.50276, y: 281.09473, z: 59.069706}
+  m_LocalPosition: {x: -106.50276, y: 280.6, z: 59.069706}
   m_LocalScale: {x: 10, y: 50, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9532,7 +9532,7 @@ Transform:
   m_GameObject: {fileID: 1762879696}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -76.10277, y: 281.09473, z: 91.5697}
+  m_LocalPosition: {x: -76.10277, y: 280.6, z: 91.5697}
   m_LocalScale: {x: 10, y: 50, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10280,7 +10280,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -14621,7 +14621,7 @@ Transform:
   m_GameObject: {fileID: 1927119939}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -89.50276, y: 258.59473, z: 44.269707}
+  m_LocalPosition: {x: -89.50276, y: 258.1, z: 44.269707}
   m_LocalScale: {x: 15, y: 5, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14654,6 +14654,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2766120366599003949, guid: fc3bf30105bac264697f199c93fdaf24, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7705707452838826748, guid: fc3bf30105bac264697f199c93fdaf24, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -14810,6 +14814,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2766120366599003949, guid: fc3bf30105bac264697f199c93fdaf24, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7705707452838826748, guid: fc3bf30105bac264697f199c93fdaf24, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10

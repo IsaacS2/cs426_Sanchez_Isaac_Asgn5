@@ -219,6 +219,11 @@ public class MaskLaunchScript : MonoBehaviour
         }
     }
 
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Touched something!");
+    }*/
+
      // Call this method to play the launch particles
     private void PlayLaunchParticles()
     {
@@ -260,6 +265,7 @@ public class MaskLaunchScript : MonoBehaviour
 
     public Vector3 RoombaTriggered(GameObject roomba)
     {
+        Debug.Log("Got sucked!");
         GetComponent<Renderer>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         roombaTrap = roomba;
@@ -272,5 +278,6 @@ public class MaskLaunchScript : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         roombaTrap = null;
         rb.position = spawnLocation;
+        Debug.Log("Return roomba");
     }
 }
