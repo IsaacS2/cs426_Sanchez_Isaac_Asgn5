@@ -16,6 +16,7 @@ public class MaskLaunchScript : MonoBehaviour
     private Quaternion startRotation;
     private LineRenderer trajectoryline;
     private GameObject killTrap;
+    private GameObject roombaTrap;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f;
     [SerializeField] private GameObject nextPlayer;
@@ -153,6 +154,11 @@ public class MaskLaunchScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (roombaTrap != null)
+        {
+            rb.position = roombaTrap.transform.position;
+        }
+
         if (Vector3.Distance(prevLocation, rb.position) > maxPositionDiff)  // mask is moving
         {
             prevLocation = rb.position;
@@ -250,5 +256,21 @@ public class MaskLaunchScript : MonoBehaviour
             points[i] = origin + Speed * time + 0.5f * Physics.gravity * time * time;
         }
         trajectoryline.SetPositions(points);
+    }
+
+    public Vector3 RoombaTriggered(GameObject roomba)
+    {
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        roombaTrap = roomba;
+        return spawnLocation;
+    }
+
+    public void RoombaReturning()
+    {
+        GetComponent<Renderer>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        roombaTrap = null;
+        rb.position = spawnLocation;
     }
 }
