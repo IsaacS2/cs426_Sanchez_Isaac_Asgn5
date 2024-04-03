@@ -8,7 +8,7 @@ public class SpiderController : MonoBehaviour
     public Animator anim;
     
     public Transform target; // The target object's Transform
-    private float speed = 0.7f;  
+    [SerializeField] private float speed = 0.7f;  
     private Rigidbody rb;
     
     public bool detected= false;

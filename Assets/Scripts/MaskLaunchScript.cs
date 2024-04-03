@@ -174,9 +174,10 @@ public class MaskLaunchScript : MonoBehaviour
                 StopLaunchParticles();
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
+                    statusMessage.gameObject.SetActive(false);
                     // activate other player
                     // deactivate camera
-                    if(nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
+                    if (nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
                         nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
                         revertCamera();
                         nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
@@ -195,7 +196,6 @@ public class MaskLaunchScript : MonoBehaviour
                     if (trapContact)
                     {
                         trapContact = false;
-                        statusMessage.gameObject.SetActive(false);
                         //rb.constraints = ~RigidbodyConstraints.FreezeAll;
                     }
                     else if (killTrap != null) {
@@ -216,11 +216,10 @@ public class MaskLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collided meow");
         if (other.gameObject.CompareTag("Trap"))
         {
             statusMessage.gameObject.SetActive(true);
-            statusMessage.text = "Oops, trap!";
+            statusMessage.text = "Oops, activated trap!";
             trapContact = true;
 
             if (other.gameObject.GetComponent<MouseDetector>() != null)
@@ -233,10 +232,11 @@ public class MaskLaunchScript : MonoBehaviour
         {
             winMessage.gameObject.SetActive(true); 
         }
-        else if(other.gameObject.CompareTag("Trap2") && trap_cond==0){
-            // statusMessage.gameObject.SetActive(true);
-            // statusMessage.text = "Oops, trap! Skip a turn";
+        else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
+            statusMessage.gameObject.SetActive(true);
+            statusMessage.text = "Oops, trap! Lose a turn";
             trap_cond=1;
+            rb.velocity = Vector3.zero;
         }
         else if (other.gameObject.CompareTag("trampoline"))
         {
@@ -253,7 +253,6 @@ public class MaskLaunchScript : MonoBehaviour
             other.gameObject.GetComponent<SpiderController>().detected= false;
             other.gameObject.GetComponent<SpiderController>().enabled= false;
             other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");
-
         }
     }
 
