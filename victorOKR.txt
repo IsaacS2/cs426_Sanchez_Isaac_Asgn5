@@ -1,3 +1,20 @@
+---Assignment 5---
 Schedule and deliverables:
 	Implement left and right arrow input to the direction the mask(player) is facing -- Saturday by 8pm (estimate: 4 hrs)
 	Implement Up and down arrow input to change player angle -- Sunday by 8pm (estimate: 4hrs)
+
+
+---Assignment 6---
+Schedule and delivarables:
+	Add a physics element that implements unity spring joint (3 hours)
+	Add an AI enemy that attacks the players (5 hours)
+	Add Lights around physic element (1 hour)
+
+---Assignment 7---
+Schedule and delivarables:
+	Playtest others game
+	Add more design texture to walls
+	UI design:
+		Change the win message color
+		Tell player when its their turn
+		Change sticky trap color to signify danger (red and not green)	
