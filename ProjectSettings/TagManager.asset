@@ -5,15 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - Face
+  - Trap
+  - Trap2
+  - trampoline
+  - spider
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Patrol
   - Water
   - UI
-  - 
-  - 
+  - Trap
+  - Player
   - 
   - 
   - 
