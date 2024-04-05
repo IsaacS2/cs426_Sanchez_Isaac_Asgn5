@@ -12946,9 +12946,9 @@ MonoBehaviour:
   camHolder: {fileID: 1384093842}
   cam: {fileID: 1554984038}
   winMessage: {fileID: 1799670007}
-  statusMessage: {fileID: 0}
+  statusMessage: {fileID: 2021946325}
   maxPositionDiff: 0.075
-  launchParticles: {fileID: 0}
+  launchParticles: {fileID: 832010245}
 --- !u!65 &1048656821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13993,9 +13993,9 @@ MonoBehaviour:
   camHolder: {fileID: 730142322}
   cam: {fileID: 944877249}
   winMessage: {fileID: 43229066}
-  statusMessage: {fileID: 0}
+  statusMessage: {fileID: 232750920}
   maxPositionDiff: 0.075
-  launchParticles: {fileID: 0}
+  launchParticles: {fileID: 552640505}
 --- !u!65 &1453584169
 BoxCollider:
   m_ObjectHideFlags: 0
