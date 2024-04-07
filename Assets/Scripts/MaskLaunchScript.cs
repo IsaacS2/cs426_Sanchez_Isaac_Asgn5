@@ -26,6 +26,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+    [SerializeField] private Button replayButton;
 
     private float rotationSpeed = 5.0f; 
 
@@ -231,6 +232,7 @@ public class MaskLaunchScript : MonoBehaviour
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 
+            replayButton.gameObject.SetActive(true);
         }
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
             statusMessage.gameObject.SetActive(true);
