@@ -27,6 +27,8 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
     [SerializeField] private Button replayButton;
+    [SerializeField] private TextMeshProUGUI yourTurnMessage;
+
 
     private float rotationSpeed = 5.0f; 
 
@@ -54,21 +56,35 @@ public class MaskLaunchScript : MonoBehaviour
         AngleFab= this.transform.Find("Angle").gameObject;
     }
 
-    private void OnEnable()
-    {
-        canLaunch = true;
-        posTimer = 0;
-        gameObject.GetComponent<movement>().enabled = true;
-        if (AngleFab != null) {  // return camHolder view to behind the launch trajectory of mask
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        }
-        camHolder.GetComponent<movement>().enabled = true;
+   private void OnEnable()
+{
+    canLaunch = true;
+    posTimer = 0;
+    gameObject.GetComponent<movement>().enabled = true;
+
+    if (AngleFab != null) {
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
+
+    camHolder.GetComponent<movement>().enabled = true;
+
+    // Show the turn message and set it to hide after 2 seconds
+    yourTurnMessage.text = "Your Turn!";
+    yourTurnMessage.gameObject.SetActive(true);
+    Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
+}
+
+private void HideTurnMessage()
+{
+    yourTurnMessage.gameObject.SetActive(false);
+}
+
 
     // Update is called once per frame
     private void Update()
     {
+        //if statment
         if (canLaunch)
         {
             // checking if mask can be launched now

@@ -13272,6 +13272,7 @@ MonoBehaviour:
   maxPositionDiff: 0.075
   launchParticles: {fileID: 832010245}
   replayButton: {fileID: 683511297}
+  yourTurnMessage: {fileID: 2021946325}
 --- !u!65 &1048656821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14333,6 +14334,7 @@ MonoBehaviour:
   maxPositionDiff: 0.075
   launchParticles: {fileID: 552640505}
   replayButton: {fileID: 1955295401}
+  yourTurnMessage: {fileID: 232750920}
 --- !u!65 &1453584169
 BoxCollider:
   m_ObjectHideFlags: 0
