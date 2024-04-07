@@ -1,0 +1,4 @@
+Schedule and deliverable:
+  Add assigned sound effects to game -- Mon by 12pm (estimate: 3 hrs)
+  Add new textures to room -- Mon by 12pm (estimate: 2 hr)
+  Incorporate new UI improvements for UI errors encountered in assignment 6 -- Mon by 11:59pm (estimate: 4 hrs)
