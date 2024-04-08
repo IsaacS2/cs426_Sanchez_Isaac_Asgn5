@@ -17,6 +17,9 @@ public class MaskLaunchScript : MonoBehaviour
     private LineRenderer trajectoryline;
     private GameObject killTrap;
     private GameObject roombaTrap;
+    public AudioSource trampolineSound;
+
+    
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -258,14 +261,20 @@ private void HideTurnMessage()
         }
         else if (other.gameObject.CompareTag("trampoline"))
         {
+           
+             // Play the trampoline sound effect
+            if (trampolineSound != null)
+            {
+                trampolineSound.Play();
+            }
 
             // Add the bounce force to the object's Rigidbody
-            
             if (rb != null)
             {
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
+
         else if (other.gameObject.CompareTag("spider")){
             rb.position = startLocation;
             other.gameObject.GetComponent<SpiderController>().detected= false;
