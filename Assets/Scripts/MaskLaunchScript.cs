@@ -9,7 +9,7 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact, soundPlaying;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation; 
@@ -17,6 +17,7 @@ public class MaskLaunchScript : MonoBehaviour
     private LineRenderer trajectoryline;
     private GameObject killTrap;
     private GameObject roombaTrap;
+    private AudioSource audSource;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -26,6 +27,8 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+    [SerializeField] private AudioClip chargeClip;
+    [SerializeField] private AudioClip angleAdjustClip;
 
     private float rotationSpeed = 5.0f; 
 
@@ -39,6 +42,8 @@ public class MaskLaunchScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audSource = GetComponent<AudioSource>();
+        soundPlaying = false;
         posTimer = 0;
         canLaunch = true;
         forceIncreasing = true;
@@ -63,6 +68,7 @@ public class MaskLaunchScript : MonoBehaviour
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
         camHolder.GetComponent<movement>().enabled = true;
+        audSource.clip = angleAdjustClip;
     }
 
     // Update is called once per frame
@@ -119,7 +125,7 @@ public class MaskLaunchScript : MonoBehaviour
                 PlayLaunchParticles(); 
             }
 
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
