@@ -99,6 +99,7 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Roomba Collision detected");
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
             statusMessage.gameObject.SetActive(true);

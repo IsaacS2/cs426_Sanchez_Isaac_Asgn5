@@ -301,7 +301,7 @@ private void HideTurnMessage()
             }
 
             // Add the bounce force to the object's Rigidbody
-            lauchsound.GetComponent<AudioSource>().Play();
+            
             if (rb != null)
             {
 
