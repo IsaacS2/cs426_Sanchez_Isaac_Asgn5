@@ -70,6 +70,7 @@ public class MaskLaunchScript : MonoBehaviour
 
         if (audSource != null) {
             audSource.clip = angleAdjustClip;
+            audSource.Stop();
         }
     }
 
