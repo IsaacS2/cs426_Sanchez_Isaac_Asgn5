@@ -12,6 +12,6 @@ public class GameManager : MonoBehaviour
    
     public void ReloadScene()
     {
-        SceneManager.LoadScene("DemoAsgn6");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

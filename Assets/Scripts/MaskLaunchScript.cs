@@ -74,6 +74,7 @@ public class MaskLaunchScript : MonoBehaviour
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
 
+        camHolder.GetComponent<movement>().enabled = true;
         // Show the turn message and set it to hide after 2 seconds
         yourTurnMessage.text = "Your Turn!";
         yourTurnMessage.gameObject.SetActive(true);
