@@ -18,3 +18,13 @@ Schedule and deliverable:
 - Human textures from mixamo -- sun by 11am (2 hours)
 - Flocking used on flies/bees that move around the sticky traps, indicating that the player should not land near the trap -- Tuesday 4:30pm (5 hours)
 - Adding Human in the center of the room -- sun by 12pm (1 hour)
+
+
+
+===============================Asgn 7===============================
+
+Schedule and deliverable:
+- Time and observe the tester-- Wednesday by 12 pm (1 hour)
+- Floor and Roof -- Sunday by 4pm (2 hours)
+- sounds effects -- Sunday by 8pm (4 hourS)
+- UI design fixes -- Monday 5pm (3 hours)

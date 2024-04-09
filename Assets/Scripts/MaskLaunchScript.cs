@@ -18,6 +18,9 @@ public class MaskLaunchScript : MonoBehaviour
     private GameObject killTrap;
     private GameObject roombaTrap;
     private AudioSource audSource;
+    public AudioSource trampolineSound;
+
+    
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -29,6 +32,9 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
     [SerializeField] private AudioClip chargeClip;
     [SerializeField] private AudioClip angleAdjustClip;
+    [SerializeField] private Button replayButton;
+    [SerializeField] private TextMeshProUGUI yourTurnMessage;
+
 
     private float rotationSpeed = 5.0f; 
 
@@ -57,26 +63,33 @@ public class MaskLaunchScript : MonoBehaviour
         AngleFab= this.transform.Find("Angle").gameObject;
     }
 
-    private void OnEnable()
+   private void OnEnable()
     {
         canLaunch = true;
         posTimer = 0;
         gameObject.GetComponent<movement>().enabled = true;
-        if (AngleFab != null) {  // return camHolder view to behind the launch trajectory of mask
+
+        if (AngleFab != null) {
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
-        camHolder.GetComponent<movement>().enabled = true;
 
-        if (audSource != null) {
-            audSource.clip = angleAdjustClip;
-            audSource.Stop();
-        }
+        // Show the turn message and set it to hide after 2 seconds
+        yourTurnMessage.text = "Your Turn!";
+        yourTurnMessage.gameObject.SetActive(true);
+        Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
     }
+
+    private void HideTurnMessage()
+    {
+        yourTurnMessage.gameObject.SetActive(false);
+    }
+
 
     // Update is called once per frame
     private void Update()
     {
+        //if statment
         if (canLaunch)
         {
             // checking if mask can be launched now
@@ -258,6 +271,7 @@ public class MaskLaunchScript : MonoBehaviour
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 
+            replayButton.gameObject.SetActive(true);
         }
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
             statusMessage.gameObject.SetActive(true);
@@ -267,14 +281,20 @@ public class MaskLaunchScript : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("trampoline"))
         {
+           
+             // Play the trampoline sound effect
+            if (trampolineSound != null)
+            {
+                trampolineSound.Play();
+            }
 
             // Add the bounce force to the object's Rigidbody
-            
             if (rb != null)
             {
                 rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
+
         else if (other.gameObject.CompareTag("spider")){
             rb.position = startLocation;
             other.gameObject.GetComponent<SpiderController>().detected= false;
