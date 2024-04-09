@@ -9,7 +9,7 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact, soundPlaying;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation; 
@@ -43,7 +43,6 @@ public class MaskLaunchScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audSource = GetComponent<AudioSource>();
-        soundPlaying = false;
         posTimer = 0;
         canLaunch = true;
         forceIncreasing = true;
@@ -68,7 +67,10 @@ public class MaskLaunchScript : MonoBehaviour
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
         camHolder.GetComponent<movement>().enabled = true;
-        audSource.clip = angleAdjustClip;
+
+        if (audSource != null) {
+            audSource.clip = angleAdjustClip;
+        }
     }
 
     // Update is called once per frame
@@ -81,7 +83,8 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
-                
+                audSource.clip = chargeClip;  // set sound to charging power clip
+                audSource.Play();
             }
 
             // currently charging force
@@ -98,10 +101,13 @@ public class MaskLaunchScript : MonoBehaviour
                 if (forceVal >= maxForce)
                 {
                     forceIncreasing = false;
+                    audSource.pitch = -1;
                 }
                 if (forceVal <= 0)
                 {
                     forceIncreasing = true;
+                    audSource.pitch = 1;
+                    audSource.Play();
                 }
                 
             }
@@ -114,19 +120,27 @@ public class MaskLaunchScript : MonoBehaviour
                 posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
                 temp_forceVal= forceVal;
+
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
                 forceIncreasing = true;
                 chargingForce = false;
                 trajectoryline.enabled= false;
+
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
-                PlayLaunchParticles(); 
+                PlayLaunchParticles();
+                audSource.Stop();
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
+                if (audSource.clip == angleAdjustClip && !audSource.isPlaying)
+                {
+                    audSource.Play();
+                }
+
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
@@ -145,7 +159,13 @@ public class MaskLaunchScript : MonoBehaviour
                 // }
             }
 
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                if (audSource.clip == angleAdjustClip && !audSource.isPlaying)
+                {
+                    audSource.Play();
+                }
+
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;
@@ -251,7 +271,7 @@ public class MaskLaunchScript : MonoBehaviour
             
             if (rb != null)
             {
-                rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
         else if (other.gameObject.CompareTag("spider")){
