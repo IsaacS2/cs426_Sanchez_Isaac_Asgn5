@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 
 public class MaskLaunchScript : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class MaskLaunchScript : MonoBehaviour
     private LineRenderer trajectoryline;
     private GameObject killTrap;
     private GameObject roombaTrap;
+    private bool moving=false;
+
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -26,6 +29,10 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+    [SerializeField] private GameObject lauchsound;
+    [SerializeField] private GameObject dropsound;
+    [SerializeField] private GameObject mudtrapsound;
+
 
     private float rotationSpeed = 5.0f; 
 
@@ -35,7 +42,8 @@ public class MaskLaunchScript : MonoBehaviour
     private Vector3 throwDirection= new Vector3(0,1,0);
     private float throwVal= 0;
     int trap_cond= 0;
-
+    private float lastSoundTime = 0f; 
+    private const float soundCooldown = 5f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -68,6 +76,13 @@ public class MaskLaunchScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
+            if (moving && Time.time - lastSoundTime >= soundCooldown) { // Check the cooldown
+                dropsound.GetComponent<AudioSource>().Play();
+                moving = false;
+                lastSoundTime = Time.time; // Update the time the sound was last played 
+            }
+        }
         if (canLaunch)
         {
             // checking if mask can be launched now
@@ -102,7 +117,9 @@ public class MaskLaunchScript : MonoBehaviour
 
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
-            {
+            {   
+                lauchsound.GetComponent<AudioSource>().Play();
+                moving=true;
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = defaultTimeVal;  // start movement-tracking timer
@@ -150,7 +167,10 @@ public class MaskLaunchScript : MonoBehaviour
                     ShowTrajectory(rb.position,maskvelocity);
                 }
             }
+
+            
         }
+        
     }
     
 
@@ -165,13 +185,17 @@ public class MaskLaunchScript : MonoBehaviour
         {
             prevLocation = rb.position;
             posTimer = defaultTimeVal;  // reset movement-tracking timer
+            
         }
         else
         {
+            
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
             if (posTimer <= 0)  // mask can be launched again
             {
                 StopLaunchParticles();
+                
+                
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
                     statusMessage.gameObject.SetActive(false);
@@ -231,8 +255,11 @@ public class MaskLaunchScript : MonoBehaviour
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 
+            winMessage.color = Color.yellow;
         }
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
+            mudtrapsound.GetComponent<AudioSource>().Play();
+            moving = false;
             statusMessage.gameObject.SetActive(true);
             statusMessage.text = "Oops, trap! Lose a turn";
             trap_cond=1;
@@ -245,6 +272,7 @@ public class MaskLaunchScript : MonoBehaviour
             
             if (rb != null)
             {
+
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
             }
         }
@@ -310,6 +338,8 @@ public class MaskLaunchScript : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         roombaTrap = null;
         rb.position = spawnLocation;
+        statusMessage.text= "";
+        statusMessage.gameObject.SetActive(false);
         Debug.Log("Return roomba");
     }
 }

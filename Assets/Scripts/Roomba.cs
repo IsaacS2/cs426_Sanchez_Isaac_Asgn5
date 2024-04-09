@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class Roomba : MonoBehaviour
 {
     [SerializeField] private float minTargetDistance = 0.01f;  // minimum distance roomba must be to targets to change course
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform[] patrollingTargets;  // default positions that roomba moves to when idle
+    [SerializeField] private TextMeshProUGUI statusMessage;
 
     private int state, patrollingInt;  // int representing the current state of the roomba
     private Vector3 target;  // current position target for roomba
@@ -99,6 +101,7 @@ public class Roomba : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
+            statusMessage.gameObject.SetActive(true);
             if (collision.gameObject.GetComponent<MaskLaunchScript>() != null) {
                 Debug.Log("Mask touched!");
                 state = 1;  // 1 == maskAbsorbed state (the mask will be taken to its spawn position)
@@ -106,9 +109,18 @@ public class Roomba : MonoBehaviour
                 target = maskVector;
                 capturedMask = collision.gameObject;
                 Debug.Log("Target changed!");
-
+                statusMessage.text = "Roomba sucked up "+ collision.gameObject.name+ " !";
                 agent.SetDestination(target);
             }
+        }
+    }
+
+    private void OnCollisonExit(Collision collision){
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("roomba ejected player");
+            statusMessage.text= "";
+         statusMessage.gameObject.SetActive(false);
         }
     }
 }
