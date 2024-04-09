@@ -27,6 +27,14 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        //transform.rotation = new Bect0, playerTransform.rotation.y, 0);
+        //transform.Rotate(0, playerTransform.rotation.y, 0);
+        //transform.Rotate(0, playerTransform.rotation.y, 0);
+        transform.eulerAngles = new Vector3(0, playerTransform.eulerAngles.y, 0);
+    }
+
     void LateUpdate()
     {
         if (playerTransform != null)
