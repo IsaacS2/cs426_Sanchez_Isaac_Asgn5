@@ -33,6 +33,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject dropsound;
     [SerializeField] private GameObject mudtrapsound;
 
+    [SerializeField] private GameObject mousetrapsound;
 
     private float rotationSpeed = 5.0f; 
 
@@ -43,7 +44,7 @@ public class MaskLaunchScript : MonoBehaviour
     private float throwVal= 0;
     int trap_cond= 0;
     private float lastSoundTime = 0f; 
-    private const float soundCooldown = 5f;
+    private const float soundCooldown = 3f;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -120,6 +121,7 @@ public class MaskLaunchScript : MonoBehaviour
             {   
                 lauchsound.GetComponent<AudioSource>().Play();
                 moving=true;
+                lastSoundTime= Time.time;
                 rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = defaultTimeVal;  // start movement-tracking timer
@@ -242,6 +244,10 @@ public class MaskLaunchScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Trap"))
         {
+            if (!trapContact){
+                mousetrapsound.GetComponent<AudioSource>().Play();
+
+            }
             statusMessage.gameObject.SetActive(true);
             statusMessage.text = "Oops, activated trap!";
             trapContact = true;
@@ -269,7 +275,7 @@ public class MaskLaunchScript : MonoBehaviour
         {
 
             // Add the bounce force to the object's Rigidbody
-            
+            lauchsound.GetComponent<AudioSource>().Play();
             if (rb != null)
             {
 
