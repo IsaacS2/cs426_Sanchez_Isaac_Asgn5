@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43678662, g: 0.48441017, b: 0.5646653, a: 1}
+  m_IndirectSpecularColor: {r: 0.43678695, g: 0.4844107, b: 0.56466585, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7639,6 +7639,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 955394360709267691, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
+      propertyPath: statusMessage
+      value: 
+      objectReference: {fileID: 232750920}
+    - target: {fileID: 955394360709267691, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
       propertyPath: patrollingTargets.Array.data[0]
       value: 
       objectReference: {fileID: 620745320}
@@ -14650,6 +14654,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 955394360709267691, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
+      propertyPath: statusMessage
+      value: 
+      objectReference: {fileID: 232750920}
     - target: {fileID: 955394360709267691, guid: 81d42f9ecdd263448b7161e53b45e953, type: 3}
       propertyPath: patrollingTargets.Array.data[0]
       value: 
