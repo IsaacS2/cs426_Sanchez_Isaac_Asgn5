@@ -10,7 +10,7 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation; 
@@ -255,12 +255,12 @@ public class MaskLaunchScript : MonoBehaviour
 
                     }
                     
-                    /*if (trapContact)
+                    if (trapContact)
                     {
                         trapContact = false;
                         
-                    }*/
-                    if (killTrap != null) {
+                    }
+                    else if (killTrap != null) {
                         Debug.Log("Trap Destroyed");
                         Destroy(killTrap);
                     }
@@ -275,21 +275,23 @@ public class MaskLaunchScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Trap"))
+        if (collision.gameObject.CompareTag("Trap"))
         {
-            mousetrapsound.GetComponent<AudioSource>().Play();
-            statusMessage.gameObject.SetActive(true);
-            statusMessage.text = "Oops, activated trap!";
-
-            if (other.gameObject.GetComponent<MouseDetector>() != null)
+            if (killTrap == null)
             {
-                killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
-                other.gameObject.GetComponent<MouseDetector>().SetNull();
+                killTrap = collision.gameObject.GetComponent<MouseDetector>().trapKiller;
+                trapContact = true;
+                mousetrapsound.GetComponent<AudioSource>().Play();
+                statusMessage.gameObject.SetActive(true);
+                statusMessage.text = "Oops, activated trap!";
             }
         }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    { 
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 

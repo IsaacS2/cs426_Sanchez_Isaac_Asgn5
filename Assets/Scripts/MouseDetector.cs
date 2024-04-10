@@ -6,18 +6,14 @@ public class MouseDetector : MonoBehaviour
 {
     public GameObject trapKiller;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (trapKiller != null) {
-                trapKiller.GetComponent<MouseTrap>().DeconstraintX();
+            if (trapKiller != null)
+            {
+                GetComponent<BoxCollider>().enabled = false;
             }
         }
-    }
-
-    public void SetNull()
-    {
-        trapKiller = null;
     }
 }
