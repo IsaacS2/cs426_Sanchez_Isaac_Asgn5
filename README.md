@@ -1,6 +1,6 @@
 # cs426_Sanchez_Isaac_Asgn5
 
-Most Updated scene: "DemoAsgn6" in "Isaac2_Asgn2" branch
+Most Updated scene: "IsaacAsgn7Scene" in "Isaac_Asgn7_3" branch
 
 Group members: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi
 
