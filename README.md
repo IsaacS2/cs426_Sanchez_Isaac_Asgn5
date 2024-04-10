@@ -45,10 +45,12 @@ new visual cues include => Lights and AI butterflies.
 
 new Environmental cues => Walls, platforms.
 
+# cs426_Sanchez_Isaac_Asgn7
 
 UI Design:
 
 UI Issues
+
 	There is a lack of clarity in terms of the distinction between the win text color and the trap message color. The texts should either be more uniform, or the win text should be more colorful to get the player’s attention towards the fact that they won. (Victor)
 	
 	
@@ -75,9 +77,8 @@ UI Issues
 
 	After someone wins the game, no input can be made, which makes it unclear what to do next (Ahmed)
 
-# cs426_Sanchez_Isaac_Asgn7
-
 UI Fixes
+
 The win location broke the clarity principle. The win message has been moved to the middle so it appears to the player that he won wide and clear. Also, after the game is beaten a replay button appears in the middle of screen that allow the players to do a rematch.
 
 
@@ -102,12 +103,13 @@ The UI bar color broke the clarity principle. UI bar has been made less saturate
 The lack of control explanation broke the learnability principle. New start menu with controls has been added.
 
 Sound Design
+
 	We chose the game Kirby’s Dream Course (https://www.youtube.com/watch?v=fFas8TNJmzc&t=476s). We counted about 8 sounds effects correlating to different actions in the game. 
 
 	Angle-changing sound (Isaac)
 This sound takes place when the player is making their shot and moving their shot cursor around the level.
 This impacts the visuals by illustrating to the player the importance and meticulousness of deciding a good path for shooting Kirby. This sound effect is perfect in terms of impact (not too strong).
-This sound effect is taking place to make adjusting shot angles more lively and less baron..
+This sound effect is taking place to make adjusting shot angles more lively and less baron.
 This sound effect is not repetitive, since it’s very subtle and not distracting.
 For this sound, they might have used older golf games as an example.
 This sound effect is perfect, since it’s low in volume due to being one of few sounds being played while planning a shot, as opposed to being played when a shot has been made, and actions are taking place.
@@ -157,10 +159,9 @@ Character Launch Sound (Victor):
 		#2. The sound impacts the visuals by signaling that the character is off the
 ground; it helps inform the player of the success of their input.
 		
-		#3. The sound is taking place to give the effect of an object with mass being l			launched with some force.
+		#3. The sound is taking place to give the effect of an object with mass being launched with some force.
 		
-		#4.  If there is no sound, the game will be flat, with no active reinforcement 
-for the player 
+		#4.  If there is no sound, the game will be flat, with no active reinforcement for the player 
 
 #5.  The sound is not repetitive, as it is only required once: when the character is being launched off the ground.
 
