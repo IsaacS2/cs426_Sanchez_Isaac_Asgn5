@@ -15,4 +15,9 @@ public class MouseDetector : MonoBehaviour
             }
         }
     }
+
+    public void SetNull()
+    {
+        trapKiller = null;
+    }
 }

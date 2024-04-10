@@ -10,7 +10,7 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation; 
@@ -22,8 +22,7 @@ public class MaskLaunchScript : MonoBehaviour
     private bool moving=false;
 
     public AudioSource trampolineSound;
-
-    
+    public AudioSource angleAdjustSound;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -34,7 +33,6 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
     [SerializeField] private AudioClip chargeClip;
-    [SerializeField] private AudioClip angleAdjustClip;
     [SerializeField] private GameObject lauchsound;
     [SerializeField] private GameObject dropsound;
     [SerializeField] private GameObject mudtrapsound;
@@ -111,9 +109,7 @@ public class MaskLaunchScript : MonoBehaviour
             // checking if mask can be launched now
             if (Input.GetButtonDown("Jump") && !chargingForce && roombaTrap == null)
             {
-                //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
-                audSource.clip = chargeClip;  // set sound to charging power clip
                 audSource.Play();
             }
 
@@ -169,9 +165,9 @@ public class MaskLaunchScript : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
-                if (audSource.clip == angleAdjustClip && !audSource.isPlaying)
+                if (!angleAdjustSound.isPlaying)
                 {
-                    audSource.Play();
+                    angleAdjustSound.Play();
                 }
 
                 trajectoryline.enabled= true;
@@ -194,9 +190,9 @@ public class MaskLaunchScript : MonoBehaviour
 
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
-                if (audSource.clip == angleAdjustClip && !audSource.isPlaying)
+                if (!angleAdjustSound.isPlaying)
                 {
-                    audSource.Play();
+                    angleAdjustSound.Play();
                 }
 
                 trajectoryline.enabled= true;
@@ -218,7 +214,7 @@ public class MaskLaunchScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (roombaTrap != null)
+        if (roombaTrap != null)  // player inside roomba
         {
             rb.position = roombaTrap.transform.position;
         }
@@ -259,14 +255,13 @@ public class MaskLaunchScript : MonoBehaviour
 
                     }
                     
-                    if (trapContact)
+                    /*if (trapContact)
                     {
                         trapContact = false;
-                        //rb.constraints = ~RigidbodyConstraints.FreezeAll;
-                    }
-                    else if (killTrap != null) {
+                        
+                    }*/
+                    if (killTrap != null) {
                         Debug.Log("Trap Destroyed");
-                        trapContact = false;
                         Destroy(killTrap);
                     }
                 }
@@ -284,17 +279,14 @@ public class MaskLaunchScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Trap"))
         {
-            if (!trapContact){
-                mousetrapsound.GetComponent<AudioSource>().Play();
-
-            }
+            mousetrapsound.GetComponent<AudioSource>().Play();
             statusMessage.gameObject.SetActive(true);
             statusMessage.text = "Oops, activated trap!";
-            trapContact = true;
 
             if (other.gameObject.GetComponent<MouseDetector>() != null)
             {
                 killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
+                other.gameObject.GetComponent<MouseDetector>().SetNull();
             }
         }
 
@@ -326,6 +318,7 @@ public class MaskLaunchScript : MonoBehaviour
             if (rb != null)
             {
                 rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                Debug.Log("WTF trampoline");
             }
         }
 
