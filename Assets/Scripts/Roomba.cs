@@ -99,9 +99,9 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Roomba Collision detected");
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
+            Debug.Log("Roomba/player Collision detected");
             statusMessage.gameObject.SetActive(true);
             if (collision.gameObject.GetComponent<MaskLaunchScript>() != null) {
                 Debug.Log("Mask touched!");
@@ -121,7 +121,7 @@ public class Roomba : MonoBehaviour
         {
             Debug.Log("roomba ejected player");
             statusMessage.text= "";
-         statusMessage.gameObject.SetActive(false);
+            statusMessage.gameObject.SetActive(false);
         }
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 
 public class MaskLaunchScript : MonoBehaviour
 {
@@ -18,11 +17,11 @@ public class MaskLaunchScript : MonoBehaviour
     private LineRenderer trajectoryline;
     private GameObject killTrap;
     private GameObject roombaTrap;
+    private AudioSource audSource;
     private bool moving=false;
 
     public AudioSource trampolineSound;
-
-    
+    public AudioSource angleAdjustSound;
 
     [SerializeField] private float forceVal = 0, forceRateChange = 4, maxForce = 5, defaultTimeVal = 1.5f, temp_forceVal=0;
     [SerializeField] private GameObject nextPlayer;
@@ -32,6 +31,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusMessage;
     [SerializeField] private float maxPositionDiff = 0.075f;
     [SerializeField] private ParticleSystem launchParticles; // Assign in the Inspector
+    [SerializeField] private AudioClip chargeClip;
     [SerializeField] private GameObject lauchsound;
     [SerializeField] private GameObject dropsound;
     [SerializeField] private GameObject mudtrapsound;
@@ -54,6 +54,7 @@ public class MaskLaunchScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audSource = GetComponent<AudioSource>();
         posTimer = 0;
         canLaunch = true;
         forceIncreasing = true;
@@ -69,28 +70,27 @@ public class MaskLaunchScript : MonoBehaviour
     }
 
    private void OnEnable()
-{
-    canLaunch = true;
-    posTimer = 0;
-    gameObject.GetComponent<movement>().enabled = true;
+    {
+        canLaunch = true;
+        posTimer = 0;
+        gameObject.GetComponent<movement>().enabled = true;
 
-    if (AngleFab != null) {
-        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        if (AngleFab != null) {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        }
+
+        camHolder.GetComponent<movement>().enabled = true;
+        // Show the turn message and set it to hide after 2 seconds
+        yourTurnMessage.text = "Your Turn!";
+        yourTurnMessage.gameObject.SetActive(true);
+        Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
     }
 
-    camHolder.GetComponent<movement>().enabled = true;
-
-    // Show the turn message and set it to hide after 2 seconds
-    yourTurnMessage.text = "Your Turn!";
-    yourTurnMessage.gameObject.SetActive(true);
-    Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
-}
-
-private void HideTurnMessage()
-{
-    yourTurnMessage.gameObject.SetActive(false);
-}
+    private void HideTurnMessage()
+    {
+        yourTurnMessage.gameObject.SetActive(false);
+    }
 
 
     // Update is called once per frame
@@ -108,9 +108,8 @@ private void HideTurnMessage()
             // checking if mask can be launched now
             if (Input.GetButtonDown("Jump") && !chargingForce && roombaTrap == null)
             {
-                //rb.AddForce((Vector3.up + this.transform.forward) * setForce, ForceMode.Impulse);  previous force applied for first task
                 chargingForce = true;  // force will now begin being charged
-                
+                audSource.Play();
             }
 
             // currently charging force
@@ -127,10 +126,13 @@ private void HideTurnMessage()
                 if (forceVal >= maxForce)
                 {
                     forceIncreasing = false;
+                    audSource.pitch = -1;
                 }
                 if (forceVal <= 0)
                 {
                     forceIncreasing = true;
+                    audSource.pitch = 1;
+                    audSource.Play();
                 }
                 
             }
@@ -146,19 +148,27 @@ private void HideTurnMessage()
                 posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
                 temp_forceVal= forceVal;
+
                 // Reset force values
                 forceVal = 0;
                 throwVal=0;
                 forceIncreasing = true;
                 chargingForce = false;
                 trajectoryline.enabled= false;
+
                 gameObject.GetComponent<movement>().enabled = false;
                 camHolder.GetComponent<movement>().enabled = false;
-                PlayLaunchParticles(); 
+                PlayLaunchParticles();
+                audSource.Stop();
             }
 
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
+                if (!angleAdjustSound.isPlaying)
+                {
+                    angleAdjustSound.Play();
+                }
+
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
@@ -177,7 +187,13 @@ private void HideTurnMessage()
                 // }
             }
 
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)){
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                if (!angleAdjustSound.isPlaying)
+                {
+                    angleAdjustSound.Play();
+                }
+
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;
@@ -197,7 +213,7 @@ private void HideTurnMessage()
 
     void FixedUpdate()
     {
-        if (roombaTrap != null)
+        if (roombaTrap != null)  // player inside roomba
         {
             rb.position = roombaTrap.transform.position;
         }
@@ -241,11 +257,10 @@ private void HideTurnMessage()
                     if (trapContact)
                     {
                         trapContact = false;
-                        //rb.constraints = ~RigidbodyConstraints.FreezeAll;
+                        
                     }
                     else if (killTrap != null) {
                         Debug.Log("Trap Destroyed");
-                        trapContact = false;
                         Destroy(killTrap);
                     }
                 }
@@ -259,24 +274,23 @@ private void HideTurnMessage()
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Trap"))
+        if (collision.gameObject.CompareTag("Trap"))
         {
-            if (!trapContact){
-                mousetrapsound.GetComponent<AudioSource>().Play();
-
-            }
-            statusMessage.gameObject.SetActive(true);
-            statusMessage.text = "Oops, activated trap!";
-            trapContact = true;
-
-            if (other.gameObject.GetComponent<MouseDetector>() != null)
+            if (killTrap == null)
             {
-                killTrap = other.gameObject.GetComponent<MouseDetector>().trapKiller;
+                killTrap = collision.gameObject.GetComponent<MouseDetector>().trapKiller;
+                trapContact = true;
+                mousetrapsound.GetComponent<AudioSource>().Play();
+                statusMessage.gameObject.SetActive(true);
+                statusMessage.text = "Oops, activated trap!";
             }
         }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    { 
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 
@@ -304,8 +318,8 @@ private void HideTurnMessage()
             
             if (rb != null)
             {
-
-                rb.AddForce((Vector3.up + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                Debug.Log("WTF trampoline");
             }
         }
 

@@ -21,6 +21,7 @@ public class Human : MonoBehaviour
     public void OnTriggerEnter(Collider col){
         //actiivate spider script if 
         Debug.Log("Something is close to the face");
+        Debug.Log(col.gameObject);
 
         if (col.gameObject.CompareTag("Player")){
             
@@ -34,9 +35,6 @@ public class Human : MonoBehaviour
             spider.GetComponent<SpiderController>().enabled= true;
             spider.GetComponent<SpiderController>().target= col.gameObject.transform; 
             spider.GetComponent<SpiderController>().detected= true;
-            
-            
-
         }
     }
     void OnTriggerExit(Collider other)
