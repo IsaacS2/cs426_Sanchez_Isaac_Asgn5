@@ -67,14 +67,15 @@ public class Human : MonoBehaviour
                 }
             }
             other.gameObject.GetComponent<MaskLaunchScript>().exitface= true;
-        
-         }
-         if (obj1 ==null && obj2==null){
+            
+            if (obj1 ==null && obj2==null){
             Debug.Log("No more players");
             other.gameObject.GetComponent<MaskLaunchScript>().nearface= false;
             spider.GetComponent<SpiderController>().enabled= false;
             spider.GetComponent<SpiderController>().detected= false;
             spider.GetComponent<SpiderController>().anim.SetTrigger("stop running");
          }
+         }
+         
     }
 }
