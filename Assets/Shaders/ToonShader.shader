@@ -9,36 +9,36 @@ Shader "Example/Toon Shading" {
         _RampTex("Ramp", 2D) = "white" {}
     }
 
-    CGINCLUDE
-// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct appdata members normal)
-    #pragma exclude_renderers d3d11
-    #include "UnityCG.cginc"
-
-    struct appdata {
-        float4 vertex : POSITION;
-        float3 normal;
-    };
-
-    struct v2f {
-        float4 pos : POSITION;
-        float4 color : COLOR;
-    };
-
-    uniform float _Outline;
-    uniform float4 _OutlineColor;
-
-    v2f vert(appdata v) {
-        v2f o;
-        o.pos = UnityObjectToClipPos(v.vertex);
-
-        float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
-        float2 offset = TransformViewToProjection(norm.xy);
-
-        o.pos.xy += offset * o.pos.z * _Outline;
-        o.color = _OutlineColor;
-        return o;
-    }
-    ENDCG
+//    CGINCLUDE
+//// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct appdata members normal)
+//    #pragma exclude_renderers d3d11
+//    #include "UnityCG.cginc"
+//
+//    struct appdata {
+//        float4 vertex : POSITION;
+//        float3 normal;
+//    };
+//
+//    struct v2f {
+//        float4 pos : POSITION;
+//        float4 color : COLOR;
+//    };
+//
+//    uniform float _Outline;
+//    uniform float4 _OutlineColor;
+//
+//    v2f vert(appdata v) {
+//        v2f o;
+//        o.pos = UnityObjectToClipPos(v.vertex);
+//
+//        float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+//        float2 offset = TransformViewToProjection(norm.xy);
+//
+//        o.pos.xy += offset * o.pos.z * _Outline;
+//        o.color = _OutlineColor;
+//        return o;
+//    }
+//    ENDCG
 
         SubShader{
             Tags { "RenderType" = "Opaque" }

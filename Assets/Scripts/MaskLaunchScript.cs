@@ -177,7 +177,7 @@ public class MaskLaunchScript : MonoBehaviour
                 { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
+                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, forceVal);
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
                 }
 
@@ -200,7 +200,7 @@ public class MaskLaunchScript : MonoBehaviour
                 if (AngleFab.transform.localEulerAngles.x == 285.0 || AngleFab.transform.localEulerAngles.x <359.0 ) { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
+                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, forceVal);
                     ShowTrajectory(rb.position,maskvelocity);
                 }
             }
