@@ -41,7 +41,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
 
-    private float rotationSpeed = 5.0f; 
+    private float rotationSpeed = 10.0f; 
 
     // trajectory values
     float angle=0;
@@ -74,6 +74,7 @@ public class MaskLaunchScript : MonoBehaviour
         canLaunch = true;
         posTimer = 0;
         angle = 0;
+        throwVal = 0;
         gameObject.GetComponent<movement>().enabled = true;
 
         if (AngleFab != null) {
@@ -165,8 +166,10 @@ public class MaskLaunchScript : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
-                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) 
+                Debug.Log(AngleFab.transform.localEulerAngles.x);
+                if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
                 {
+                    Debug.Log("SendMessageUpwards!");
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
@@ -198,9 +201,10 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;*/
-
-                if (AngleFab.transform.localEulerAngles.x == 285.0 || AngleFab.transform.localEulerAngles.x <359.0 ) 
+                Debug.Log(AngleFab.transform.localEulerAngles.x);
+                if (AngleFab.transform.localEulerAngles.x >= 1 && AngleFab.transform.localEulerAngles.x <= 359 ) 
                 {
+                    Debug.Log("SendMessageDownwards!");
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
