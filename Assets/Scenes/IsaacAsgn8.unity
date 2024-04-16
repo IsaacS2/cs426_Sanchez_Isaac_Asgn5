@@ -17624,8 +17624,8 @@ MonoBehaviour:
   trampolineSound: {fileID: 389020678}
   angleAdjustSound: {fileID: 1106460016}
   forceVal: 0
-  forceRateChange: 15
-  maxForce: 15
+  forceRateChange: 16
+  maxForce: 16
   defaultTimeVal: 1.5
   temp_forceVal: 0
   nextPlayer: {fileID: 1537430140}
@@ -18800,8 +18800,8 @@ MonoBehaviour:
   trampolineSound: {fileID: 389020678}
   angleAdjustSound: {fileID: 1106460016}
   forceVal: 0
-  forceRateChange: 15
-  maxForce: 15
+  forceRateChange: 16
+  maxForce: 16
   defaultTimeVal: 1.5
   temp_forceVal: 0
   nextPlayer: {fileID: 1390770556}
