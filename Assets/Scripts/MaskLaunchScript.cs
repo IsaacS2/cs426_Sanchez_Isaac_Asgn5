@@ -41,7 +41,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
 
-    private float rotationSpeed = 10.0f; 
+    private float rotationSpeed = 15.0f; 
 
     // trajectory values
     float angle=0;
@@ -136,7 +136,9 @@ public class MaskLaunchScript : MonoBehaviour
                     audSource.pitch = 1;
                     audSource.Play();
                 }
-                
+
+                Vector3 maskvelocity = (AngleFab.transform.forward + throwDirection).normalized * forceVal;
+                ShowTrajectory(AngleFab.transform.position, maskvelocity);
             }
 
             // force charging button (space) has been released; time to launch mask!
@@ -145,7 +147,8 @@ public class MaskLaunchScript : MonoBehaviour
                 lauchsound.GetComponent<AudioSource>().Play();
                 moving=true;
                 lastSoundTime= Time.time;
-                rb.AddForce((Vector3.up + AngleFab.transform.forward) * forceVal, ForceMode.Impulse);  // apply current charged force
+
+                rb.AddForce((Vector3.up + AngleFab.transform.forward).normalized * forceVal, ForceMode.VelocityChange);  // apply current charged force
                 canLaunch = false;  // player can't launch until other players have gotten their turns
                 posTimer = defaultTimeVal;  // start movement-tracking timer
                 AngleFab.transform.localEulerAngles= new Vector3(0, 0, 0);
@@ -164,7 +167,7 @@ public class MaskLaunchScript : MonoBehaviour
                 audSource.Stop();
             }
 
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && !Input.GetButton("Jump"))
             {
                 Debug.Log(AngleFab.transform.localEulerAngles.x);
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
@@ -176,12 +179,12 @@ public class MaskLaunchScript : MonoBehaviour
                     }
 
                     trajectoryline.enabled = true;
-                    angle += Time.deltaTime;
+                    //angle += Time.deltaTime;
                     throwVal += Time.deltaTime * forceRateChange;
 
-                    float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
+                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
+                    Vector3 maskvelocity= (Vector3.up + AngleFab.transform.forward).normalized * maxForce;
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
                 }
 
@@ -191,7 +194,7 @@ public class MaskLaunchScript : MonoBehaviour
                 // }
             }
 
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !Input.GetButton("Jump"))
             {
                 /*if (!angleAdjustSound.isPlaying)
                 {
@@ -211,18 +214,17 @@ public class MaskLaunchScript : MonoBehaviour
                     }
 
                     trajectoryline.enabled = true;
-                    angle -= Time.deltaTime;
+                    //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
 
 
-                    float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
+                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
-                    ShowTrajectory(rb.position,maskvelocity);
+                    Vector3 maskvelocity= (Vector3.up + AngleFab.transform.forward).normalized * maxForce;
+                    ShowTrajectory(AngleFab.transform.position, maskvelocity);
                 }
             }
 
-            
         }
         
     }
