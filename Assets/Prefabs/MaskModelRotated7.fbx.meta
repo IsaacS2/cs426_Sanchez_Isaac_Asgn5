@@ -3,7 +3,17 @@ guid: 786c6d8dcb2654946b131531cc984a02
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaskBase
+    second: {fileID: 2100000, guid: f08469319640a104999d633907669951, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MaskFace
+    second: {fileID: 2100000, guid: 9a01861181f6d1145b5b07540589b827, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
