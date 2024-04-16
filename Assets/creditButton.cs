@@ -4,16 +4,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class creditButton : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private TextMeshProUGUI winMessage;
     [SerializeField] private Button replayButton;
-    [SerializeField] private TextMeshProUGUI creditmessage;
+    [SerializeField] private GameObject viewHolder;
+
     public void showCredit(){
         Debug.Log("in showcredit");
         winMessage.gameObject.SetActive(!winMessage.isActiveAndEnabled);
-        creditmessage.gameObject.SetActive (!creditmessage.isActiveAndEnabled);
+        viewHolder.gameObject.SetActive(!viewHolder.active);
         replayButton.gameObject.SetActive(!replayButton.isActiveAndEnabled);
 
     }
