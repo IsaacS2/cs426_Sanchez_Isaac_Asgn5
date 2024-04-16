@@ -19,7 +19,7 @@ Shader "Example/Detail" {
       void surf (Input IN, inout SurfaceOutput o) {
           o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
           o.Albedo *= tex2D (_Detail, IN.uv_Detail).rgb * 2;
-          o.Albedo *= float3(1, 0.5, 0.5);
+          o.Albedo *= float3(0.5, 0.5, 1);
           o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
       }
       ENDCG
