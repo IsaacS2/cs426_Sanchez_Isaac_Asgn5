@@ -41,7 +41,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
 
-    private float rotationSpeed = 15.0f; 
+    private float rotationSpeed = 20.0f; 
 
     // trajectory values
     float angle=0;
@@ -65,7 +65,7 @@ public class MaskLaunchScript : MonoBehaviour
         // angle line values
         trajectoryline= GetComponent<LineRenderer>();
         trajectoryline.SetPosition( 0,rb.position);
-        trajectoryline.enabled= false;
+        trajectoryline.enabled= true;
         AngleFab= this.transform.Find("Angle").gameObject;
     }
 
@@ -80,6 +80,7 @@ public class MaskLaunchScript : MonoBehaviour
         if (AngleFab != null) {
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            trajectoryline.enabled = true;
         }
 
         camHolder.GetComponent<movement>().enabled = true;
@@ -184,8 +185,6 @@ public class MaskLaunchScript : MonoBehaviour
 
                     float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (Vector3.up + AngleFab.transform.forward).normalized * maxForce;
-                    ShowTrajectory(AngleFab.transform.position,maskvelocity);
                 }
 
                 // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
@@ -220,11 +219,30 @@ public class MaskLaunchScript : MonoBehaviour
 
                     float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
-                    Vector3 maskvelocity= (Vector3.up + AngleFab.transform.forward).normalized * maxForce;
-                    ShowTrajectory(AngleFab.transform.position, maskvelocity);
                 }
             }
 
+            if (!Input.GetButton("Jump") && roombaTrap == null) // adjustable vertical angle can now be rotated separately when power is not charged
+            {
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
+                    AngleFab.transform.Rotate(0, -rotationAmount, 0, Space.Self);
+                }
+
+                if (Input.GetKey(KeyCode.E))
+                {
+                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
+                    AngleFab.transform.Rotate(0, rotationAmount, 0, Space.Self);
+                }
+
+                generalTrajectoryUpdate();  // this will now update the launch angle whenever power is not being charged
+            }
+
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+
+            }
         }
         
     }
@@ -377,6 +395,12 @@ public class MaskLaunchScript : MonoBehaviour
     public void revertCamera()
     {
         cam.enabled = !cam.enabled;
+    }
+
+    private void generalTrajectoryUpdate()
+    {
+        Vector3 maskvelocity = (Vector3.up + AngleFab.transform.forward).normalized * maxForce;
+        ShowTrajectory(AngleFab.transform.position, maskvelocity);
     }
 
     void ShowTrajectory(Vector3 origin, Vector3 Speed){
