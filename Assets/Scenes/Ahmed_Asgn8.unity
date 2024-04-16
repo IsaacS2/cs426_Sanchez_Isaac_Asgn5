@@ -123,6 +123,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9348532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6657560127643677590, guid: 033c5b9c0b335bd4490cd0b9d41cacec, type: 3}
+  m_PrefabInstance: {fileID: 2115535382}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9348534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9348532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e30c541cf2f4da488c895af21303057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eyeMaterial: {fileID: 2100000, guid: 6a67c0fe3bc81c9449f348e612155296, type: 2}
 --- !u!1 &30644805
 GameObject:
   m_ObjectHideFlags: 0
@@ -15207,6 +15225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 911068951}
+  eyeMaterial: {fileID: 2100000, guid: 6a67c0fe3bc81c9449f348e612155296, type: 2}
 --- !u!135 &1624585905
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21857,6 +21876,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human
       objectReference: {fileID: 0}
+    - target: {fileID: 2321523695958950486, guid: 033c5b9c0b335bd4490cd0b9d41cacec, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35b8bd4952190fb4a8a9aeddd733c2f5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -21882,6 +21905,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 033c5b9c0b335bd4490cd0b9d41cacec, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2115535385}
+    - targetCorrespondingSourceObject: {fileID: 6657560127643677590, guid: 033c5b9c0b335bd4490cd0b9d41cacec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9348534}
   m_SourcePrefab: {fileID: 100100000, guid: 033c5b9c0b335bd4490cd0b9d41cacec, type: 3}
 --- !u!1 &2115535383 stripped
 GameObject:

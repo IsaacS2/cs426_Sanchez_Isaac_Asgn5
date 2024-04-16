@@ -19,7 +19,7 @@ public class FaceCollider : MonoBehaviour
             }
             if (eyeMaterial != null)
             {
-                eyeMaterial.SetFloat("_Amount", 1.0f); // Adjust the value as needed to achieve the desired effect
+                eyeMaterial.SetFloat("_Amount", 0.05f); // Adjust the value as needed to achieve the desired effect
             }
         }
     }

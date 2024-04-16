@@ -1,15 +1,21 @@
 using UnityEngine;
 
-public class EyeShader : MonoBehaviour
+public class EyeExtrusionControl : MonoBehaviour
 {
-    public Material eyeMaterial; // Drag your eye material here through the Inspector
+    public Material eyeMaterial; // Assign this through the Unity Editor
 
-    // Example method to set shader property
-    public void SetEyeShade(float amount)
+    void Start()
+    {
+        SetExtrusion(0.05f); // Set an initial extrusion amount
+    }
+
+    public void SetExtrusion(float amount)
     {
         if (eyeMaterial != null)
         {
-            eyeMaterial.SetFloat("_Amount", amount);
+            var Renderer = GetComponent<Renderer>();
+            Renderer.material = eyeMaterial;
+            // eyeMaterial.SetFloat("_Amount", amount);
         }
     }
 }
