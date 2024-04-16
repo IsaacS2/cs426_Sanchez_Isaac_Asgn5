@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Net.NetworkInformation;
 
 public class MaskLaunchScript : MonoBehaviour
 {
@@ -44,13 +45,20 @@ public class MaskLaunchScript : MonoBehaviour
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
-    float angle=0;
+    public float angle=0;
     private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
-    private float throwVal= 0;
+    public float throwVal= 0;
+    public float prevthrowval= 0;
     int trap_cond= 0;
-    private float lastSoundTime = 0f; 
+    private float lastSoundTime = 0f;
+    public Vector3 preOrigin;
+    public Vector3 preSpeed;
     private const float soundCooldown = 3f;
+
+    public Vector3 preForward { get; private set; }
+    public float prevDeltaTime { get; private set; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -172,11 +180,13 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= true;
                 angle+=Time.deltaTime;
                 throwVal += Time.deltaTime * forceRateChange;
-                
+                prevthrowval= throwVal;
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) 
                 { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
+                    prevDeltaTime= Time.deltaTime;
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
+                    preForward= AngleFab.transform.forward;
                     Vector3 maskvelocity= (AngleFab.transform.forward +  throwDirection).normalized * Mathf.Min(angle * throwVal, maxForce);
                     ShowTrajectory(AngleFab.transform.position,maskvelocity);
                 }
@@ -197,6 +207,7 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;
+                prevthrowval= throwVal;
                 if (AngleFab.transform.localEulerAngles.x == 285.0 || AngleFab.transform.localEulerAngles.x <359.0 ) { 
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
@@ -361,6 +372,9 @@ public class MaskLaunchScript : MonoBehaviour
     }
 
     void ShowTrajectory(Vector3 origin, Vector3 Speed){
+        Debug.Log("Mask Launch script speed : " + Speed);
+        preOrigin= origin;
+        preSpeed= Speed;
         Vector3[] points= new Vector3[100];
         trajectoryline.positionCount= points.Length;
         for(int i= 0; i<points.Length; i++){
