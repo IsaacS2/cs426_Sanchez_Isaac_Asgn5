@@ -38,10 +38,13 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject mudtrapsound;
 
     [SerializeField] private GameObject mousetrapsound;
+     [SerializeField] private GameObject returnpoint;
+    [SerializeField] private GameObject returnpoint2;
     [SerializeField] private Button replayButton;
+    [SerializeField] private Button creditButton;
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
-
+    [SerializeField] private  GameObject spider;
     private float rotationSpeed = 5.0f; 
 
     // trajectory values
@@ -58,6 +61,8 @@ public class MaskLaunchScript : MonoBehaviour
 
     public Vector3 preForward { get; private set; }
     public float prevDeltaTime { get; private set; }
+    public bool nearface= false;
+    public bool exitface= false;
 
     void Start()
     {
@@ -90,7 +95,16 @@ public class MaskLaunchScript : MonoBehaviour
 
         camHolder.GetComponent<movement>().enabled = true;
         // Show the turn message and set it to hide after 2 seconds
-        yourTurnMessage.text = "Your Turn!";
+        yourTurnMessage.color= Color.red;
+        
+        if(exitface==true){
+            yourTurnMessage.text = "Gremlin attacked you!";
+            
+        }
+        else{
+            yourTurnMessage.text = "Your Turn!";
+           
+        }
         yourTurnMessage.gameObject.SetActive(true);
         Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
     }
@@ -104,6 +118,9 @@ public class MaskLaunchScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (nearface){//player can now see gremlin attack them
+            spider.GetComponent<SpiderController>().enabled= true;
+        }
         if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
             if (moving && Time.time - lastSoundTime >= soundCooldown) { // Check the cooldown
                 dropsound.GetComponent<AudioSource>().Play();
@@ -172,6 +189,7 @@ public class MaskLaunchScript : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) )
             {
+                exitface= false;
                 if (!angleAdjustSound.isPlaying)
                 {
                     angleAdjustSound.Play();
@@ -183,6 +201,7 @@ public class MaskLaunchScript : MonoBehaviour
                 prevthrowval= throwVal;
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >=285.0 ) 
                 { 
+                    Debug.Log("Angle : "+angle);
                     float rotationAmount = Mathf.Min(0.25f, Time.deltaTime * rotationSpeed);
                     prevDeltaTime= Time.deltaTime;
                     AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
@@ -306,6 +325,7 @@ public class MaskLaunchScript : MonoBehaviour
         {
             winMessage.gameObject.SetActive(true); 
             replayButton.gameObject.SetActive(true);
+            creditButton.gameObject.SetActive(true);
             winMessage.color = Color.yellow;
         }
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
@@ -335,7 +355,13 @@ public class MaskLaunchScript : MonoBehaviour
         }
 
         else if (other.gameObject.CompareTag("spider")){
-            rb.position = startLocation;
+            if (this.gameObject==GameObject.Find("P1Mask")){
+                rb.position = returnpoint.transform.position;
+            }
+            else{
+                 rb.position = returnpoint2.transform.position;
+            }
+            
             other.gameObject.GetComponent<SpiderController>().detected= false;
             other.gameObject.GetComponent<SpiderController>().enabled= false;
             other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");

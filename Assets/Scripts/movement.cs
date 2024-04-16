@@ -70,9 +70,9 @@ public class movement : MonoBehaviour
            if(lineRenderer){
                 lineRenderer.enabled=true;
 
-               
+               Debug.Log("Angle : "+maskLaunchScript.angle);
                 Vector3 maskvelocity= (AngleFab.transform.forward +  new Vector3(0,1,0)).normalized * Mathf.Min(maskLaunchScript.angle *maskLaunchScript.throwVal, 5);
-                ShowTrajectory(AngleFab.transform.position,maskvelocity );
+                ShowTrajectory(AngleFab.transform.position,maskvelocity);
             }
 
             // Vector3[] positions= new Vector3[lineRenderer.positionCount];

@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,10 +9,14 @@ public class Human : MonoBehaviour
 
     public GameObject obj1;
     public GameObject obj2;
-
+    [SerializeField] private TextMeshProUGUI gremlinMessage;
+    
+    [SerializeField] private TextMeshProUGUI statusMessage;
     private void Start()
     {
+        
         animator = GetComponent<Animator>();
+        
     }
 
     public void TriggerTerrifiedAnimation()
@@ -24,7 +29,9 @@ public class Human : MonoBehaviour
         Debug.Log(col.gameObject);
 
         if (col.gameObject.CompareTag("Player")){
-            
+            statusMessage.gameObject.SetActive(true);
+            statusMessage.text="Gremlin is Active!!!";
+            statusMessage.color=Color.red;
             if(obj1 == null){
                 obj1= col.GameObject();
             }
@@ -32,7 +39,8 @@ public class Human : MonoBehaviour
                 obj2= col.GameObject();
             }
             Debug.Log("Face is near Human");
-            spider.GetComponent<SpiderController>().enabled= true;
+            col.gameObject.GetComponent<MaskLaunchScript>().nearface= true;
+            
             spider.GetComponent<SpiderController>().target= col.gameObject.transform; 
             spider.GetComponent<SpiderController>().detected= true;
         }
@@ -58,10 +66,12 @@ public class Human : MonoBehaviour
 
                 }
             }
+            other.gameObject.GetComponent<MaskLaunchScript>().exitface= true;
         
          }
          if (obj1 ==null && obj2==null){
             Debug.Log("No more players");
+            other.gameObject.GetComponent<MaskLaunchScript>().nearface= false;
             spider.GetComponent<SpiderController>().enabled= false;
             spider.GetComponent<SpiderController>().detected= false;
             spider.GetComponent<SpiderController>().anim.SetTrigger("stop running");
