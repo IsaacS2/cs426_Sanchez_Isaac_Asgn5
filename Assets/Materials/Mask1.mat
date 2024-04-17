@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mask1
-  m_Shader: {fileID: 4800000, guid: 6db8c174d872a4059aac8a112856bc71, type: 3}
+  m_Shader: {fileID: 4800000, guid: 83825d25cd8204c1ca9fb5f244d5e59e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -28,8 +28,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Detail:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 583f4c3807b8aa24ba2da46231275883, type: 3}
+        m_Scale: {x: 12, y: 12}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -45,12 +45,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1.01, y: 1}
-        m_Offset: {x: 4.97, y: 3.02}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 84dca415c291b3e4a94831f455441e43, type: 3}
-        m_Scale: {x: 1.01, y: 1}
-        m_Offset: {x: 4.97, y: 3.02}
+        m_Texture: {fileID: 2800000, guid: aaaf9e26a638d6541bfb83e6b25888a9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -82,6 +82,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.115323596, g: 0.6459007, b: 0.7484276, a: 1}
+    - _Color: {r: 0.8930817, g: 0.35667092, b: 0.35667092, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

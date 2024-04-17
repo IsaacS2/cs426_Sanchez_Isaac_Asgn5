@@ -221,6 +221,7 @@ MonoBehaviour:
   patrollingTargets:
   - {fileID: 0}
   - {fileID: 0}
+  statusMessage: {fileID: 0}
 --- !u!65 &503119314490517329
 BoxCollider:
   m_ObjectHideFlags: 0

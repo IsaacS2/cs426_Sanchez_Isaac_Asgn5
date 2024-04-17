@@ -14,6 +14,7 @@ public class creditButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI creditMessage;
 
     public bool creditMode= false;
+    private bool panelSet = false;
     private float previousTime = 0.0f;
 
     public void showCredit(){
@@ -22,8 +23,6 @@ public class creditButton : MonoBehaviour
         creditMessage.gameObject.SetActive(!creditMessage.isActiveAndEnabled);
         replayButton.gameObject.SetActive(!replayButton.isActiveAndEnabled);
         creditMode= creditMessage.isActiveAndEnabled;
-        
-
     }
 
     void Update(){

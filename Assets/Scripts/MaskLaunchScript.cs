@@ -55,8 +55,6 @@ public class MaskLaunchScript : MonoBehaviour
     public float prevthrowval= 0;
     int trap_cond= 0;
     private float lastSoundTime = 0f;
-    public Vector3 preOrigin;
-    public Vector3 preSpeed;
     private const float soundCooldown = 3f;
 
     public bool nearface= false;

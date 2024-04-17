@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43678662, g: 0.48441017, b: 0.5646653, a: 1}
+  m_IndirectSpecularColor: {r: 0.43678695, g: 0.4844107, b: 0.56466585, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4780,7 +4780,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 60
-  lineRenderer: {fileID: 0}
 --- !u!114 &698335391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4821,8 +4820,6 @@ MonoBehaviour:
   angle: 0
   throwVal: 0
   prevthrowval: 0
-  preOrigin: {x: 0, y: 0, z: 0}
-  preSpeed: {x: 0, y: 0, z: 0}
   nearface: 0
   exitface: 0
 --- !u!65 &698335392
@@ -6747,7 +6744,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 60
-  lineRenderer: {fileID: 0}
 --- !u!114 &996956401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6788,8 +6784,6 @@ MonoBehaviour:
   angle: 0
   throwVal: 0
   prevthrowval: 0
-  preOrigin: {x: 0, y: 0, z: 0}
-  preSpeed: {x: 0, y: 0, z: 0}
   nearface: 0
   exitface: 0
 --- !u!65 &996956402
@@ -10836,7 +10830,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 60
-  lineRenderer: {fileID: 0}
 --- !u!114 &1705953111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11121,7 +11114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 60
-  lineRenderer: {fileID: 0}
 --- !u!114 &1749056604
 MonoBehaviour:
   m_ObjectHideFlags: 0
