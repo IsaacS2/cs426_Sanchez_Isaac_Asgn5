@@ -181,7 +181,6 @@ public class MaskLaunchScript : MonoBehaviour
                     //trajectoryline.enabled = true;
                     //angle += Time.deltaTime;
                     throwVal += Time.deltaTime * forceRateChange;
-                    throwVal += Time.deltaTime * forceRateChange;
 
                     rotationAmount.x = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
@@ -212,7 +211,6 @@ public class MaskLaunchScript : MonoBehaviour
                     //trajectoryline.enabled = true;
                     //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
-
 
                     rotationAmount.x = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
