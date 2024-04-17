@@ -12,7 +12,7 @@ public class MaskLaunchScript : MonoBehaviour
     private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
-    private Vector3 prevLocation, startLocation, spawnLocation; 
+    private Vector3 prevLocation, startLocation, spawnLocation, rotationAmount; 
     private Quaternion startRotation;
     private LineRenderer trajectoryline;
     private GameObject killTrap;
@@ -60,7 +60,7 @@ public class MaskLaunchScript : MonoBehaviour
         forceIncreasing = true;
         prevLocation = rb.position;
         startLocation = rb.position;
-        spawnLocation = rb.position;
+        spawnLocation = rb.position + Vector3.up;
         
         // angle line values
         trajectoryline= GetComponent<LineRenderer>();
@@ -99,6 +99,7 @@ public class MaskLaunchScript : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        rotationAmount = Vector3.zero;
         if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
             if (moving && Time.time - lastSoundTime >= soundCooldown) { // Check the cooldown
                 dropsound.GetComponent<AudioSource>().Play();
@@ -170,21 +171,19 @@ public class MaskLaunchScript : MonoBehaviour
 
             if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && !Input.GetButton("Jump"))
             {
-                Debug.Log(AngleFab.transform.localEulerAngles.x);
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
                 {
-                    Debug.Log("SendMessageUpwards!");
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
                     }
 
-                    trajectoryline.enabled = true;
+                    //trajectoryline.enabled = true;
                     //angle += Time.deltaTime;
                     throwVal += Time.deltaTime * forceRateChange;
+                    throwVal += Time.deltaTime * forceRateChange;
 
-                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
-                    AngleFab.transform.Rotate(-rotationAmount, 0, 0, Space.Self);
+                    rotationAmount.x = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
 
                 // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
@@ -203,22 +202,19 @@ public class MaskLaunchScript : MonoBehaviour
                 trajectoryline.enabled= true;
                 angle-=Time.deltaTime;
                 throwVal -= Time.deltaTime * forceRateChange;*/
-                Debug.Log(AngleFab.transform.localEulerAngles.x);
                 if (AngleFab.transform.localEulerAngles.x >= 1 && AngleFab.transform.localEulerAngles.x <= 359 ) 
                 {
-                    Debug.Log("SendMessageDownwards!");
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
                     }
 
-                    trajectoryline.enabled = true;
+                    //trajectoryline.enabled = true;
                     //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
 
 
-                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
-                    AngleFab.transform.Rotate(rotationAmount, 0, 0, Space.Self);
+                    rotationAmount.x = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
             }
 
@@ -226,23 +222,22 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
-                    AngleFab.transform.Rotate(0, -rotationAmount, 0, Space.Self);
+                    rotationAmount.y = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
 
                 if (Input.GetKey(KeyCode.E))
                 {
-                    float rotationAmount = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
-                    AngleFab.transform.Rotate(0, rotationAmount, 0, Space.Self);
+                    rotationAmount.y = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
 
+                //Debug.Log(AngleFab.transform.eulerAngles);
+                Debug.Log("Rotation: " + rotationAmount);
+                AngleFab.transform.Rotate(rotationAmount.x, rotationAmount.y, 0, Space.Self);
+                AngleFab.transform.localEulerAngles = new Vector3(AngleFab.transform.localEulerAngles.x, AngleFab.transform.localEulerAngles.y, 0);
+                Debug.Log("Euler: " + AngleFab.transform.eulerAngles);
                 generalTrajectoryUpdate();  // this will now update the launch angle whenever power is not being charged
             }
 
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-
-            }
         }
         
     }
@@ -297,7 +292,6 @@ public class MaskLaunchScript : MonoBehaviour
                         
                     }
                     else if (killTrap != null) {
-                        Debug.Log("Trap Destroyed");
                         Destroy(killTrap);
                     }
                 }
@@ -356,7 +350,6 @@ public class MaskLaunchScript : MonoBehaviour
             if (rb != null)
             {
                 rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
-                Debug.Log("WTF trampoline");
             }
         }
 
@@ -415,7 +408,6 @@ public class MaskLaunchScript : MonoBehaviour
 
     public Vector3 RoombaTriggered(GameObject roomba)
     {
-        Debug.Log("Got sucked!");
         GetComponent<Renderer>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         roombaTrap = roomba;
@@ -430,6 +422,5 @@ public class MaskLaunchScript : MonoBehaviour
         rb.position = spawnLocation;
         statusMessage.text= "";
         statusMessage.gameObject.SetActive(false);
-        Debug.Log("Return roomba");
     }
 }
