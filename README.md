@@ -1,6 +1,6 @@
 # cs426_Sanchez_Isaac_Asgn5
 
-Most Updated scene: "IsaacAsgn7Scene" in "Isaac_Asgn7_3" branch
+Most Updated scene: "DemoAsgn8" in "main" branch
 
 Group members: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi
 
@@ -8,7 +8,9 @@ Controls for demo:
 
                    A/D or left/right keys to rotate mask left or right before launching
                    
-                   W/S or up/down keys to adjust vertical arch angle or recenter the arch to the front of the player after rotating the camera horizontally
+                   W/S or up/down keys to adjust vertical arch angle
+
+     		   Q/E to rotate vertical arch angle independently of mask
                    
                    Hold and let go of space bar to charge and then release force to launch the mask during their turn
 
@@ -198,3 +200,14 @@ Sounds added/rejected
 For the win sound effect, we rejected clips of people talking. For the trampoline, we rejected a several generic trampoline jumping sound. We rejected several generic horror sound effects in favor of sci-fi and self-made sound effects to better suit the spooky but humorous mood of the game. 
 
 We added sounds for the mask landing, the mask being launched, the mask hitting the mouse trap/sticky trap/roomba, the mouse charging power, the mask adjusting its angle, the mask hitting a trampoline, and the mask hitting the face and winning. We also added background music for the start menu and main level, and background noise for the gremlin and the mouse. The mouse noise was made with lip sounds, and he power-charging sounds was made with an ocarina. The angle adjusting sound was made with snapping. These sounds helped make our game more mysterious, but fun
+
+# Assignment 8 notes:
+
+Ahmed Additions: 
+added an eye shader which makes the game more humorous and unsettling, made the traps appear clearly so players don’t fall into it without knowing its dangerous, also made a intro logo at the beginning of the game to make it look more professional and to introduce the game to the player, and made the objective of the goal clearer so they players should know what to aim for when playing the game.
+
+Victor Additions: 
+added a detail texture shader for the masks, for a more design centered effect that gives the masks more prominence. Due to some suggestions from the alpha release, we replaced the main music for a more context-appropriate option. Also added more user information regarding the gremlin, making them more aware of the gremlin’s action. Reduced the penalty from gremlin attack to lower player frustration. Attempted syncing trajectory line rotation with mask rotation.
+
+Isaac Addition:
+Isaac added a toon-like shader to the boxes and table of the room, to give these environmental surfaces more prominence so that the player knows to use their verticality to their advantage. Isaac also added the introductory dialogue to the start menu, to expand on the setting. In terms of making the game easier, the human’s size was lowered, boxes were lowered to make them easier to jump on, and the trajectory angle has been given a new feature of being able to turn it separately from the mask with the Q/E keys. This allows the player to turn the angle and have the camera at a better view for seeing where they will land. In addition, the trajectory angle now updates with the current charged force of the player, for more accurate shots. Finally, the mask model has been updated with a custom model made in blender, so that users correlate the character with a mask.
