@@ -44,7 +44,7 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private Button creditButton;
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
-
+    [SerializeField] private GameObject spider;
     private float rotationSpeed = 20.0f; 
 
     // trajectory values
