@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Net.NetworkInformation;
 
 public class MaskLaunchScript : MonoBehaviour
 {
@@ -37,20 +38,30 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject mudtrapsound;
 
     [SerializeField] private GameObject mousetrapsound;
+     [SerializeField] private GameObject returnpoint;
+    [SerializeField] private GameObject returnpoint2;
     [SerializeField] private Button replayButton;
+    [SerializeField] private Button creditButton;
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
 
 
     private float rotationSpeed = 20.0f; 
 
     // trajectory values
-    float angle=0;
+    public float angle=0;
     private GameObject AngleFab;
     private Vector3 throwDirection= new Vector3(0,1,0);
-    private float throwVal= 0;
+    public float throwVal= 0;
+    public float prevthrowval= 0;
     int trap_cond= 0;
-    private float lastSoundTime = 0f; 
+    private float lastSoundTime = 0f;
+    public Vector3 preOrigin;
+    public Vector3 preSpeed;
     private const float soundCooldown = 3f;
+
+    public bool nearface= false;
+    public bool exitface= false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -85,9 +96,20 @@ public class MaskLaunchScript : MonoBehaviour
 
         camHolder.GetComponent<movement>().enabled = true;
         // Show the turn message and set it to hide after 2 seconds
-        yourTurnMessage.text = "Your Turn!";
+        yourTurnMessage.color= Color.red;
+        
+        if(exitface==true){
+            yourTurnMessage.text = "Gremlin attacked you!";
+            
+        }
+        else{
+            yourTurnMessage.text = "Your Turn!";
+           
+        }
         yourTurnMessage.gameObject.SetActive(true);
         Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
+
+        yourTurnMessage.color= Color.black;
     }
 
     private void HideTurnMessage()
@@ -100,6 +122,9 @@ public class MaskLaunchScript : MonoBehaviour
     private void Update()
     {
         rotationAmount = Vector3.zero;
+        if (nearface){//player can now see gremlin attack them
+            spider.GetComponent<SpiderController>().enabled= true;
+        }
         if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
             if (moving && Time.time - lastSoundTime >= soundCooldown) { // Check the cooldown
                 dropsound.GetComponent<AudioSource>().Play();
@@ -173,6 +198,7 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
                 {
+                    exitface = false;
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
@@ -181,7 +207,7 @@ public class MaskLaunchScript : MonoBehaviour
                     //trajectoryline.enabled = true;
                     //angle += Time.deltaTime;
                     throwVal += Time.deltaTime * forceRateChange;
-
+                    
                     rotationAmount.x = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
 
@@ -211,6 +237,7 @@ public class MaskLaunchScript : MonoBehaviour
                     //trajectoryline.enabled = true;
                     //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
+
 
                     rotationAmount.x = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
@@ -334,6 +361,7 @@ public class MaskLaunchScript : MonoBehaviour
         {
             winMessage.gameObject.SetActive(true); 
             replayButton.gameObject.SetActive(true);
+            creditButton.gameObject.SetActive(true);
             winMessage.color = Color.yellow;
         }
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
@@ -362,7 +390,13 @@ public class MaskLaunchScript : MonoBehaviour
         }
 
         else if (other.gameObject.CompareTag("spider")){
-            rb.position = startLocation;
+            if (this.gameObject==GameObject.Find("P1Mask")){
+                rb.position = returnpoint.transform.position;
+            }
+            else{
+                 rb.position = returnpoint2.transform.position;
+            }
+            
             other.gameObject.GetComponent<SpiderController>().detected= false;
             other.gameObject.GetComponent<SpiderController>().enabled= false;
             other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");

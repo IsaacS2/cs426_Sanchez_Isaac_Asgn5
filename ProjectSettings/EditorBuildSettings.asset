@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Ahmed_Asgn8.unity
+    guid: 9aacb2c81af69aa4d93446653016ff45
+  - enabled: 1
     path: Assets/Scenes/Start Menu.unity
     guid: 1ed9884a47cdb684c806c318c1e81878
-  - enabled: 1
-    path: Assets/Scenes/DemoAsgn7.unity
-    guid: bf9762f63e472aa4dae6488a2301c3a8
   m_configObjects: {}

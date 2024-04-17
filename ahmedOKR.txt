@@ -28,3 +28,16 @@ Schedule and deliverable:
 - Floor and Roof -- Sunday by 4pm (2 hours)
 - sounds effects -- Sunday by 8pm (4 hourS)
 - UI design fixes -- Monday 5pm (3 hours)
+
+
+
+
+
+===============================Asgn 8===============================
+
+Schedule and deliverable:
+  - Make goal/objective clear to players --  Sunday by 10 am (1 hour)
+  - Make traps clear to players -- Sunday by 11 am (1 hour)
+  - Create developer/publisher logo screen --  Sunday 1pm (2 hours)
+
+

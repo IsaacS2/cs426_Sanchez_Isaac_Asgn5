@@ -1,6 +1,6 @@
 Schedule and deliverables
-  Add new mask models -- Sun by 6pm (estimate: 4 hr)
-  Add opening screen introduction to start menu -- Sun by 8pm (estimate: 1 hr)
-  Add toon shader to boxes and other environmental elements -- Mon by 2pm (estimate: 3 hrs)
-  Have vertical angle in-sync with mask charge power -- Mon by 8pm (estimate: 3 hrs)
-  Add beta additions to design document -- Mon by 8pm (estimate: 2 hrs)
+  Add new mask models -- Sun by 10pm (estimate: 4 hr)
+  Add opening screen introduction to start menu -- Sun by 11:59pm (estimate: 1 hr)
+  Add toon shader to boxes and other environmental elements -- Mon by 5pm (estimate: 4 hrs)
+  Have vertical angle in-sync with mask charge power -- Mon by 11:59pm (estimate: 3 hrs)
+  Add beta additions to design document -- Tues by 8pm (estimate: 2 hrs)
