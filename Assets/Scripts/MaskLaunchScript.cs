@@ -223,11 +223,21 @@ public class MaskLaunchScript : MonoBehaviour
                 if (Input.GetKey(KeyCode.Q))
                 {
                     rotationAmount.y = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
+
+                    if (!angleAdjustSound.isPlaying)
+                    {
+                        angleAdjustSound.Play();
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.E))
                 {
                     rotationAmount.y = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
+
+                    if (!angleAdjustSound.isPlaying)
+                    {
+                        angleAdjustSound.Play();
+                    }
                 }
 
                 //Debug.Log(AngleFab.transform.eulerAngles);
