@@ -6,7 +6,7 @@ public class EyeExtrusionControl : MonoBehaviour
 
     void Start()
     {
-        SetExtrusion(0.05f); // Set an initial extrusion amount
+        SetExtrusion(0f); // Set an initial extrusion amount
     }
 
     public void SetExtrusion(float amount)
@@ -15,7 +15,7 @@ public class EyeExtrusionControl : MonoBehaviour
         {
             var Renderer = GetComponent<Renderer>();
             Renderer.material = eyeMaterial;
-            // eyeMaterial.SetFloat("_Amount", amount);
+            eyeMaterial.SetFloat("_Amount", amount);
         }
     }
 }

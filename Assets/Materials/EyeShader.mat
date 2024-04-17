@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EyeShader
-  m_Shader: {fileID: 4800000, guid: 0c2fa4632c0bc574c827d6d10ef3e20e, type: 3}
+  m_Shader: {fileID: 4800000, guid: cd0b169d2591147ff852ec108c620a07, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
