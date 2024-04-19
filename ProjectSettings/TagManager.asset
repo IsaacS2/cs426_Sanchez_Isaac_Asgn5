@@ -9,6 +9,7 @@ TagManager:
   - Trap2
   - trampoline
   - spider
+  - KillerTrap
   layers:
   - Default
   - TransparentFX

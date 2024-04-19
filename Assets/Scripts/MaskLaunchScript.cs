@@ -38,8 +38,8 @@ public class MaskLaunchScript : MonoBehaviour
     [SerializeField] private GameObject mudtrapsound;
 
     [SerializeField] private GameObject mousetrapsound;
-     [SerializeField] private GameObject returnpoint;
-    [SerializeField] private GameObject returnpoint2;
+    [SerializeField] private GameObject returnpoint;  // point that gremlin takes players to after attacking them
+    [SerializeField] private GameObject returnpoint2;  // point that gremlin takes players to after attacking them
     [SerializeField] private Button replayButton;
     [SerializeField] private Button creditButton;
     [SerializeField] private TextMeshProUGUI yourTurnMessage;
@@ -108,6 +108,11 @@ public class MaskLaunchScript : MonoBehaviour
         Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
 
         yourTurnMessage.color= Color.black;
+
+        foreach (GameObject MouseTrap in MouseTrapManager.FM.allMouseTrap)
+        {
+            MouseTrap.GetComponent<MouseTrap>().ChangeTrapState();
+        }
     }
 
     private void HideTurnMessage()
@@ -235,7 +240,6 @@ public class MaskLaunchScript : MonoBehaviour
                     //trajectoryline.enabled = true;
                     //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
-
 
                     rotationAmount.x = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
