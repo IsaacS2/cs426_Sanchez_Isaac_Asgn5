@@ -10,16 +10,15 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky, trapContact;
+    private bool canLaunch, forceIncreasing, chargingForce, sticky;
     // public float setForce;  static force used for first task
     private float posTimer;  // timer that determines if mask is still for ~1 second
     private Vector3 prevLocation, startLocation, spawnLocation, rotationAmount; 
     private Quaternion startRotation;
     private LineRenderer trajectoryline;
-    private GameObject killTrap;
     private GameObject roombaTrap;
     private AudioSource audSource;
-    private bool moving=false;
+    private bool moving = false;
 
     public AudioSource trampolineSound;
     public AudioSource angleAdjustSound;
@@ -86,7 +85,7 @@ public class MaskLaunchScript : MonoBehaviour
         throwVal = 0;
         gameObject.GetComponent<movement>().enabled = true;
 
-        if (AngleFab != null) {
+        if (AngleFab != null) {  // first turn of the mask
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             trajectoryline.enabled = true;
@@ -108,11 +107,6 @@ public class MaskLaunchScript : MonoBehaviour
         Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
 
         yourTurnMessage.color= Color.black;
-
-        foreach (GameObject MouseTrap in MouseTrapManager.FM.allMouseTrap)
-        {
-            MouseTrap.GetComponent<MouseTrap>().ChangeTrapState();
-        }
     }
 
     private void HideTurnMessage()
@@ -268,10 +262,10 @@ public class MaskLaunchScript : MonoBehaviour
                 }
 
                 //Debug.Log(AngleFab.transform.eulerAngles);
-                Debug.Log("Rotation: " + rotationAmount);
+                //Debug.Log("Rotation: " + rotationAmount);
                 AngleFab.transform.Rotate(rotationAmount.x, rotationAmount.y, 0, Space.Self);
                 AngleFab.transform.localEulerAngles = new Vector3(AngleFab.transform.localEulerAngles.x, AngleFab.transform.localEulerAngles.y, 0);
-                Debug.Log("Euler: " + AngleFab.transform.eulerAngles);
+                //Debug.Log("Euler: " + AngleFab.transform.eulerAngles);
                 generalTrajectoryUpdate();  // this will now update the launch angle whenever power is not being charged
             }
 
@@ -304,32 +298,32 @@ public class MaskLaunchScript : MonoBehaviour
                 
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
+                    foreach (GameObject mouseTrap in MouseTrapManager.FM.allMouseTrap)
+                    {
+                        if (mouseTrap != null) {  // ignore deleted mouse trap clamps
+                            if (mouseTrap.GetComponent<MouseTrap>() != null)  // check that the object is actually a mouse trap clamp
+                            {
+                                mouseTrap.GetComponent<MouseTrap>().ChangeTrapState();
+                            }
+                        }
+                    }
+
                     statusMessage.gameObject.SetActive(false);
-                    // activate other player
-                    // deactivate camera
+
+                    // activate other player and deactivate camera if the other player is not in a sticky trap
                     if (nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
                         nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
                         revertCamera();
                         nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
                         enabled = false;
                     }
-                    else{
-                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond=0;
+                    else
+                    { // other player is in a sticky trap, so this player gets an extra turn
+                        nextPlayer.GetComponent<MaskLaunchScript>().trap_cond = 0;
                         enabled=true;
-                        // statusMessage.gameObject.SetActive(true);
-                        // statusMessage.text = "Xtra Turn!";
-
+                        statusMessage.gameObject.SetActive(true);
+                        statusMessage.text = "Xtra Turn!";
                         OnEnable();
-
-                    }
-                    
-                    if (trapContact)
-                    {
-                        trapContact = false;
-                        
-                    }
-                    else if (killTrap != null) {
-                        Destroy(killTrap);
                     }
                 }
                 
@@ -344,21 +338,18 @@ public class MaskLaunchScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // player activated a mouse trap
         if (collision.gameObject.CompareTag("Trap"))
         {
-            if (killTrap == null)
-            {
-                killTrap = collision.gameObject.GetComponent<MouseDetector>().trapKiller;
-                trapContact = true;
-                mousetrapsound.GetComponent<AudioSource>().Play();
-                statusMessage.gameObject.SetActive(true);
-                statusMessage.text = "Oops, activated trap!";
-            }
+            mousetrapsound.GetComponent<AudioSource>().Play();
+            statusMessage.gameObject.SetActive(true);
+            statusMessage.text = "Oops, activated trap!";
         }
     }
 
     private void OnTriggerEnter(Collider other)
     { 
+        // player hit the human face
         if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
         {
             winMessage.gameObject.SetActive(true); 
@@ -366,6 +357,7 @@ public class MaskLaunchScript : MonoBehaviour
             creditButton.gameObject.SetActive(true);
             winMessage.color = Color.yellow;
         }
+        // player landed on the sticky/poop trap
         else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
             mudtrapsound.GetComponent<AudioSource>().Play();
             moving = false;
@@ -374,17 +366,16 @@ public class MaskLaunchScript : MonoBehaviour
             trap_cond=1;
             rb.velocity = Vector3.zero;
         }
+        // player made contact with the trampoline
         else if (other.gameObject.CompareTag("trampoline"))
         {
-           
-             // Play the trampoline sound effect
+            // Play the trampoline sound effect
             if (trampolineSound != null)
             {
                 trampolineSound.Play();
             }
 
             // Add the bounce force to the object's Rigidbody
-            
             if (rb != null)
             {
                 rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);

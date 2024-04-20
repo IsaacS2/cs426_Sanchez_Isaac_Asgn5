@@ -38,16 +38,6 @@ public class Roomba : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (patrollingVectors.Length <= 0)
-        {
-            for (int i = 0; i < patrollingTargets.Length; i++)
-            {
-                patrollingVectors[i] = patrollingTargets[i].position;
-            }
-        }*/
-
-        //Debug.Log("Distance: " + Vector3.Distance(target, transform.position) 
-                    //+ ", target: " + target + ", position: " + transform.position);
         if (Vector3.Distance(transform.position, target) <= minTargetDistance) // time to switch patrolling targets
         {
             if (state == 0 || state == 2)  // in idle state
@@ -92,7 +82,6 @@ public class Roomba : MonoBehaviour
                 target = patrollingVectors[patrollingInt];
             }
 
-            Debug.Log("Target changed!");
             agent.SetDestination(target);
         }
     }
@@ -101,15 +90,12 @@ public class Roomba : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
-            Debug.Log("Roomba/player Collision detected");
             statusMessage.gameObject.SetActive(true);
             if (collision.gameObject.GetComponent<MaskLaunchScript>() != null) {
-                Debug.Log("Mask touched!");
                 state = 1;  // 1 == maskAbsorbed state (the mask will be taken to its spawn position)
                 var maskVector = collision.gameObject.GetComponent<MaskLaunchScript>().RoombaTriggered(gameObject);
                 target = maskVector;
                 capturedMask = collision.gameObject;
-                Debug.Log("Target changed!");
                 statusMessage.text = "Roomba sucked up "+ collision.gameObject.name+ " !";
                 agent.SetDestination(target);
             }
@@ -119,7 +105,6 @@ public class Roomba : MonoBehaviour
     private void OnCollisonExit(Collision collision){
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("roomba ejected player");
             statusMessage.text= "";
             statusMessage.gameObject.SetActive(false);
         }

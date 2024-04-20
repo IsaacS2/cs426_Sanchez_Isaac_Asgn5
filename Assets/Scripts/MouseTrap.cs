@@ -17,12 +17,12 @@ public class MouseTrap : MonoBehaviour
         state = 1;
     }
 
-    public void ChangeTrapState()
+    public void ChangeTrapState(int stateIncrementor = 1)
     {
         if (state >= 1)
         {
-            state++;
-            if (state >= 3)  // must destroy trap
+            state += stateIncrementor;
+            if (state >= 4)  // must destroy trap
             {
                 Destroy(gameObject);
             }

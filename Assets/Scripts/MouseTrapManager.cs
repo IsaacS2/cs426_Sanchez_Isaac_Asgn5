@@ -9,7 +9,8 @@ public class MouseTrapManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //allMouseTraps 
         allMouseTrap = GameObject.FindGameObjectsWithTag("KillerTrap");
+        Debug.Log(allMouseTrap.Length);
+        FM = this;
     }
 }
