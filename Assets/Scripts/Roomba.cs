@@ -82,6 +82,7 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Roomba touched something");
         // player that is not currently in a mask can be absorbed (roomba does not have a mask sucked up currently)
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {

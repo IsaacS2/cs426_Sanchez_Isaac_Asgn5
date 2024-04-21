@@ -85,8 +85,9 @@ public class MaskLaunchScript : MonoBehaviour
         throwVal = 0;
         gameObject.GetComponent<movement>().enabled = true;
 
-        if (AngleFab != null) {  // first turn of the mask
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        if (AngleFab != null) {  // not the first turn of the mask
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
+            rb.position = prevLocation;
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             trajectoryline.enabled = true;
         }
@@ -123,8 +124,8 @@ public class MaskLaunchScript : MonoBehaviour
         if (nearface){  //player can now see gremlin attack them
             spider.GetComponent<SpiderController>().enabled= true;
         }
-        if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
-            if (moving && Time.time - lastSoundTime >= soundCooldown) { // Check the cooldown
+        if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){  //mask not moving?
+            if (moving && Time.time - lastSoundTime >= soundCooldown) {  // Check the cooldown
                 dropsound.GetComponent<AudioSource>().Play();
                 moving = false;
                 lastSoundTime = Time.time; // Update the time the sound was last played 
@@ -210,14 +211,6 @@ public class MaskLaunchScript : MonoBehaviour
 
             if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !Input.GetButton("Jump"))
             {
-                /*if (!angleAdjustSound.isPlaying)
-                {
-                    angleAdjustSound.Play();
-                }
-
-                trajectoryline.enabled= true;
-                angle-=Time.deltaTime;
-                throwVal -= Time.deltaTime * forceRateChange;*/
                 if (AngleFab.transform.localEulerAngles.x >= 1 && AngleFab.transform.localEulerAngles.x <= 359 ) 
                 {
                     if (!angleAdjustSound.isPlaying)
@@ -225,8 +218,6 @@ public class MaskLaunchScript : MonoBehaviour
                         angleAdjustSound.Play();
                     }
 
-                    //trajectoryline.enabled = true;
-                    //angle -= Time.deltaTime;
                     throwVal -= Time.deltaTime * forceRateChange;
 
                     rotationAmount.x = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
@@ -347,51 +338,53 @@ public class MaskLaunchScript : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    { 
-        // player hit the human face
-        if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
-        {
-            winMessage.gameObject.SetActive(true); 
-            replayButton.gameObject.SetActive(true);
-            creditButton.gameObject.SetActive(true);
-            winMessage.color = Color.yellow;
-        }
-        // player landed on the sticky/poop trap
-        else if (other.gameObject.CompareTag("Trap2") && trap_cond==0){
-            mudtrapsound.GetComponent<AudioSource>().Play();
-            moving = false;
-            statusMessage.gameObject.SetActive(true);
-            statusMessage.text = "Oops, trap! Lose a turn";
-            trap_cond=1;
-            rb.velocity = Vector3.zero;
-        }
-        // player made contact with the trampoline
-        else if (other.gameObject.CompareTag("trampoline"))
-        {
-            // Play the trampoline sound effect
-            if (trampolineSound != null)
+    {
+        if (!canLaunch) {  // these collisions should only occur when mask has been launched
+            // player hit the human face
+            if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
             {
-                trampolineSound.Play();
+                winMessage.gameObject.SetActive(true);
+                replayButton.gameObject.SetActive(true);
+                creditButton.gameObject.SetActive(true);
+                winMessage.color = Color.yellow;
+            }
+            // player landed on the sticky/poop trap
+            else if (other.gameObject.CompareTag("Trap2") && trap_cond == 0) {
+                mudtrapsound.GetComponent<AudioSource>().Play();
+                moving = false;
+                statusMessage.gameObject.SetActive(true);
+                statusMessage.text = "Oops, trap! Lose a turn";
+                trap_cond = 1;
+                rb.velocity = Vector3.zero;
+            }
+            // player made contact with the trampoline
+            else if (other.gameObject.CompareTag("trampoline"))
+            {
+                // Play the trampoline sound effect
+                if (trampolineSound != null)
+                {
+                    trampolineSound.Play();
+                }
+
+                // Add the bounce force to the object's Rigidbody
+                if (rb != null)
+                {
+                    rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                }
             }
 
-            // Add the bounce force to the object's Rigidbody
-            if (rb != null)
-            {
-                rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
-            }
-        }
+            else if (other.gameObject.CompareTag("spider")) {
+                if (this.gameObject == GameObject.Find("P1Mask")) {
+                    rb.position = returnpoint.transform.position;
+                }
+                else {
+                    rb.position = returnpoint2.transform.position;
+                }
 
-        else if (other.gameObject.CompareTag("spider")){
-            if (this.gameObject==GameObject.Find("P1Mask")){
-                rb.position = returnpoint.transform.position;
+                other.gameObject.GetComponent<SpiderController>().detected = false;
+                other.gameObject.GetComponent<SpiderController>().enabled = false;
+                other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");
             }
-            else{
-                 rb.position = returnpoint2.transform.position;
-            }
-            
-            other.gameObject.GetComponent<SpiderController>().detected= false;
-            other.gameObject.GetComponent<SpiderController>().enabled= false;
-            other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");
         }
     }
 
@@ -456,5 +449,10 @@ public class MaskLaunchScript : MonoBehaviour
         rb.position = spawnLocation;
         statusMessage.text= "";
         statusMessage.gameObject.SetActive(false);
+    }
+
+    public bool LaunchStatus()
+    {
+        return canLaunch;
     }
 }

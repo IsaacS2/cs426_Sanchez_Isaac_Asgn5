@@ -25,21 +25,24 @@ public class Human : MonoBehaviour
     }
     public void OnTriggerEnter(Collider col){
         //  actiivate spider script if mask touches trigger below human
-
         if (col.gameObject.CompareTag("Player")){
-            statusMessage.gameObject.SetActive(true);
-            statusMessage.text="Gremlin is Active!!!";
-            statusMessage.color=Color.red;
-            if(obj1 == null){
-                obj1= col.GameObject();
+            if (col.gameObject.GetComponent<MaskLaunchScript>() != null) {  // safety check for player script
+                if (!col.gameObject.GetComponent<MaskLaunchScript>().LaunchStatus()) {  // mask has been launched
+                    statusMessage.gameObject.SetActive(true);
+                    statusMessage.text = "Gremlin is Active!!!";
+                    statusMessage.color = Color.red;
+                    if (obj1 == null) {
+                        obj1 = col.GameObject();
+                    }
+                    else if (obj2 == null) {
+                        obj2 = col.GameObject();
+                    }
+                    col.gameObject.GetComponent<MaskLaunchScript>().nearface = true;
+
+                    spider.GetComponent<SpiderController>().target = col.gameObject.transform;
+                    spider.GetComponent<SpiderController>().detected = true;
+                }
             }
-            else if (obj2== null){
-                obj2= col.GameObject();
-            }
-            col.gameObject.GetComponent<MaskLaunchScript>().nearface= true;
-            
-            spider.GetComponent<SpiderController>().target= col.gameObject.transform; 
-            spider.GetComponent<SpiderController>().detected= true;
         }
     }
     void OnTriggerExit(Collider other)
