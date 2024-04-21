@@ -98,7 +98,7 @@ public class MaskLaunchScript : MonoBehaviour
         // Show the turn message and set it to hide after 2 seconds
         yourTurnMessage.color= Color.red;
         
-        if(exitface==true){
+        if(exitface==true){  // mask has left 
             yourTurnMessage.text = "Gremlin attacked you!";
             
         }
@@ -125,7 +125,7 @@ public class MaskLaunchScript : MonoBehaviour
         if (nearface){  //player can now see gremlin attack them
             spider.GetComponent<SpiderController>().enabled= true;
         }
-        if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){  //mask not moving?
+        if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){  // mask not moving?
             if (moving && Time.time - lastSoundTime >= soundCooldown) {  // Check the cooldown
                 dropsound.GetComponent<AudioSource>().Play();
                 moving = false;
@@ -197,6 +197,7 @@ public class MaskLaunchScript : MonoBehaviour
 
             if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && !Input.GetButton("Jump"))
             {
+                // check to make sure trajectory line is not already at max launch angle
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
                 {
                     exitface = false;
@@ -213,6 +214,7 @@ public class MaskLaunchScript : MonoBehaviour
 
             if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !Input.GetButton("Jump"))
             {
+                // check to make sure trajectory line is not already at min launch angle
                 if (AngleFab.transform.localEulerAngles.x >= 1 && AngleFab.transform.localEulerAngles.x <= 359 ) 
                 {
                     if (!angleAdjustSound.isPlaying)
@@ -228,7 +230,7 @@ public class MaskLaunchScript : MonoBehaviour
 
             if (!Input.GetButton("Jump") && roombaTrap == null) // adjustable vertical angle can now be rotated separately when power is not charged
             {
-                if (Input.GetKey(KeyCode.Q))
+                if (Input.GetKey(KeyCode.Q))  // rotating angle left
                 {
                     rotationAmount.y = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
 
@@ -238,7 +240,7 @@ public class MaskLaunchScript : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKey(KeyCode.E))
+                if (Input.GetKey(KeyCode.E))  // rotating angle right
                 {
                     rotationAmount.y = Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
 
@@ -289,9 +291,9 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 StopLaunchParticles();
 
-                if (!canLaunch && !winMessage.isActiveAndEnabled)
+                if (!canLaunch && !winMessage.isActiveAndEnabled)  // transition to next player's turn
                 {
-                    foreach (GameObject mouseTrap in MouseTrapManager.FM.allMouseTrap)
+                    foreach (GameObject mouseTrap in MouseTrapManager.FM.allMouseTrap)  // increment mouse trap states so they're destroyed by 1 full round of turns
                     {
                         if (mouseTrap != null) {  // ignore deleted mouse trap clamps
                             if (mouseTrap.GetComponent<MouseTrap>() != null)  // check that the object is actually a mouse trap clamp
@@ -322,7 +324,7 @@ public class MaskLaunchScript : MonoBehaviour
             }
         }
 
-        if (rb.position.y < -10)  // player off map
+        if (rb.position.y < -10)  // player off the map
         {
             rb.position = startLocation;
         }
@@ -374,7 +376,7 @@ public class MaskLaunchScript : MonoBehaviour
                     rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
                 }
             }
-
+            // player got hit by a spider
             else if (other.gameObject.CompareTag("spider")) {
                 if (this.gameObject == GameObject.Find("P1Mask")) {
                     rb.position = returnpoint.transform.position;
@@ -439,6 +441,8 @@ public class MaskLaunchScript : MonoBehaviour
     {
         GetComponent<Renderer>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
+        rb.constraints = RigidbodyConstraints.None; // allow mask to move with roomba
+
         roombaTrap = roomba;
         return spawnLocation;
     }
@@ -447,6 +451,9 @@ public class MaskLaunchScript : MonoBehaviour
     {
         GetComponent<Renderer>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
+        // freeze movement constraints for accurate aiming, or if the mask has been launched, the mask will be placed in the
+        // flat area of their spawn point, so the freezing of constraints does not matter.
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         roombaTrap = null;
         rb.position = spawnLocation;
         statusMessage.text= "";

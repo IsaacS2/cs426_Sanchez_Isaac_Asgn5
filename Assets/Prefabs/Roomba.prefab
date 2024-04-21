@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 440892757712257446}
   - component: {fileID: 955394360709267691}
   - component: {fileID: 503119314490517329}
+  - component: {fileID: 2294603421569605386}
   m_Layer: 3
   m_Name: Roomba
   m_TagString: Untagged
@@ -192,7 +193,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.5
-  m_Speed: 30
+  m_Speed: 50
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -216,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b124a909d2cbc554fbe7f73d7ef6975e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTargetDistance: 0.75
+  minTargetDistance: 2
   agent: {fileID: 440892757712257446}
   patrollingTargets:
   - {fileID: 0}
@@ -241,8 +242,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.75, y: 2, z: 0.75}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2294603421569605386
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731184607167490002}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5725809983318774602
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,10 +15,12 @@ public class Roomba : MonoBehaviour
     private Vector3 target;  // current position target for roomba
     private Vector3[] patrollingVectors;
     private GameObject capturedMask;
+    private Rigidbody rb;
     
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         state = 0;  // 0 == idle state
         patrollingInt = 0;  // target is first vector in patrolling positions list
         agent.updateRotation = false;
@@ -55,6 +57,11 @@ public class Roomba : MonoBehaviour
                     state = 0;
                     capturedMask = null;
                     GetComponent<BoxCollider>().enabled = true;
+                }
+
+                if (state == 0 || rb.isKinematic)  // roomba has begun idle state after returning mask to spawn point
+                {
+                    rb.isKinematic = false;
                 }
             }
 
@@ -94,6 +101,7 @@ public class Roomba : MonoBehaviour
                 capturedMask = collision.gameObject;
                 statusMessage.text = "Roomba sucked up "+ collision.gameObject.name+ " !";
                 agent.SetDestination(target);
+                rb.isKinematic = true;  // keep roomba from colliding with other objects during transportation
             }
         }
     }
