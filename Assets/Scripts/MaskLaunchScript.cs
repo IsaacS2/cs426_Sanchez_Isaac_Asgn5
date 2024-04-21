@@ -90,6 +90,7 @@ public class MaskLaunchScript : MonoBehaviour
             rb.position = prevLocation;
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             trajectoryline.enabled = true;
+            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;  // freeze mask position to keep them from teleporting/moving while aiming shot
         }
 
         camHolder.GetComponent<movement>().enabled = true;
@@ -169,7 +170,8 @@ public class MaskLaunchScript : MonoBehaviour
 
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
-            {   
+            {
+                rb.constraints = RigidbodyConstraints.None;  // mask can now move
                 lauchsound.GetComponent<AudioSource>().Play();
                 moving=true;
                 lastSoundTime= Time.time;
