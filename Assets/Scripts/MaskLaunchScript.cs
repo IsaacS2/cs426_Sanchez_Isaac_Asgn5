@@ -85,9 +85,9 @@ public class MaskLaunchScript : MonoBehaviour
         gameObject.GetComponent<movement>().enabled = true;
 
         if (AngleFab != null) {  // not the first turn of the mask
-            /*transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
-            rb.position = prevLocation;*/
-            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
+            //rb.position = prevLocation;
+            camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // reorient the camera so the trajectory angle is aligned
             trajectoryline.enabled = true;
         }
 
@@ -169,7 +169,7 @@ public class MaskLaunchScript : MonoBehaviour
             // force charging button (space) has been released; time to launch mask!
             if (Input.GetButtonUp("Jump") && chargingForce)
             {
-                rb.constraints = RigidbodyConstraints.None;  // mask can now move
+                //rb.constraints = RigidbodyConstraints.None;  // mask can now move
                 lauchsound.GetComponent<AudioSource>().Play();
                 moving=true;
                 lastSoundTime= Time.time;
@@ -278,20 +278,20 @@ public class MaskLaunchScript : MonoBehaviour
                 // Touching bools are checked to see if the mask is in contact with 2 parts of a mouse trap
                 // In this case, the mask will be left at its current rotation so it doesn't clip through the
                 // mouse trap while changing rotation.
-                if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
+                /*if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
                 || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
                 {
                     // updating the collision with mouse traps 
-                    trapBaseTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapBaseCollision();
-                    killerTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapKillerCollision();
+                    //trapBaseTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapBaseCollision();
+                    //killerTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapKillerCollision();
 
-                    if (!killerTouching || !trapBaseTouching)
-                    {
+                    //if (!killerTouching || !trapBaseTouching)
+                    //{
                         rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
-                    }
-                }
+                    //}
+                }*/
 
-                Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
+                //Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
             }
 
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
@@ -302,6 +302,8 @@ public class MaskLaunchScript : MonoBehaviour
 
                 if (!canLaunch && !winMessage.isActiveAndEnabled)  // transition to next player's turn
                 {
+                    prevLocation = rb.position;
+
                     foreach (GameObject mouseTrap in MouseTrapManager.FM.allMouseTrap)  // increment mouse trap states so they're destroyed by 1 full round of turns
                     {
                         if (mouseTrap != null) {  // ignore deleted mouse trap clamps
@@ -451,7 +453,7 @@ public class MaskLaunchScript : MonoBehaviour
     {
         GetComponent<Renderer>().enabled = false;
         rb.isKinematic = true;
-        rb.constraints = RigidbodyConstraints.None; // allow mask to move with roomba
+        //rb.constraints = RigidbodyConstraints.None; // allow mask to move with roomba
 
         roombaTrap = roomba;
         return spawnLocation;
