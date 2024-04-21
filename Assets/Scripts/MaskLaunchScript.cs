@@ -92,6 +92,7 @@ public class MaskLaunchScript : MonoBehaviour
         }
 
         camHolder.GetComponent<movement>().enabled = true;
+
         // Show the turn message and set it to hide after 2 seconds
         yourTurnMessage.color= Color.red;
         
@@ -119,7 +120,7 @@ public class MaskLaunchScript : MonoBehaviour
     private void Update()
     {
         rotationAmount = Vector3.zero;
-        if (nearface){//player can now see gremlin attack them
+        if (nearface){  //player can now see gremlin attack them
             spider.GetComponent<SpiderController>().enabled= true;
         }
         if (Vector3.Distance(prevLocation, rb.position) < maxPositionDiff){//mask not moving?
@@ -201,17 +202,10 @@ public class MaskLaunchScript : MonoBehaviour
                         angleAdjustSound.Play();
                     }
 
-                    //trajectoryline.enabled = true;
-                    //angle += Time.deltaTime;
                     throwVal += Time.deltaTime * forceRateChange;
                     
                     rotationAmount.x = -Mathf.Min(0.5f, Time.deltaTime * rotationSpeed);
                 }
-
-                // if (AngleFab.transform.rotation.eulerAngles.x>=-90.0f){
-                //     AngleFab.transform.forward=new Vector3(AngleFab.transform.forward.x, AngleFab.transform.forward.y+0.1f, AngleFab.transform.forward.z);
-                //     Debug.Log(AngleFab.transform.rotation.eulerAngles);
-                // }
             }
 
             if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !Input.GetButton("Jump"))
@@ -261,11 +255,8 @@ public class MaskLaunchScript : MonoBehaviour
                     }
                 }
 
-                //Debug.Log(AngleFab.transform.eulerAngles);
-                //Debug.Log("Rotation: " + rotationAmount);
                 AngleFab.transform.Rotate(rotationAmount.x, rotationAmount.y, 0, Space.Self);
                 AngleFab.transform.localEulerAngles = new Vector3(AngleFab.transform.localEulerAngles.x, AngleFab.transform.localEulerAngles.y, 0);
-                //Debug.Log("Euler: " + AngleFab.transform.eulerAngles);
                 generalTrajectoryUpdate();  // this will now update the launch angle whenever power is not being charged
             }
 
@@ -285,17 +276,26 @@ public class MaskLaunchScript : MonoBehaviour
         {
             prevLocation = rb.position;
             posTimer = defaultTimeVal;  // reset movement-tracking timer
-            
         }
         else
         {
-            
+            if (canLaunch)  // keep the mask steady while preparing for launching by maintaining rotation
+            {
+                // if mask is rotated at a significant angle/upside down, its rotation should be reset
+                if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315) 
+                    || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
+                {
+                    Debug.Log("Reset Position from x-rotation: " + rb.transform.localEulerAngles.x + " and z-rotation: " + rb.transform.localEulerAngles.z);
+                    rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
+                }
+            }
+
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
+
             if (posTimer <= 0)  // mask can be launched again
             {
                 StopLaunchParticles();
-                
-                
+
                 if (!canLaunch && !winMessage.isActiveAndEnabled)
                 {
                     foreach (GameObject mouseTrap in MouseTrapManager.FM.allMouseTrap)
@@ -326,7 +326,6 @@ public class MaskLaunchScript : MonoBehaviour
                         OnEnable();
                     }
                 }
-                
             }
         }
 

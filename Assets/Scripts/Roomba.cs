@@ -40,12 +40,8 @@ public class Roomba : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target) <= minTargetDistance) // time to switch patrolling targets
         {
-            if (state == 0 || state == 2)  // in idle state
+            if (state == 0 || state == 2)  // in idle state or recovery state
             {
-                if (state == 0)
-                {
-                    Debug.Log("switch state 0");
-                }
                 patrollingInt++;
                 if (patrollingInt >= patrollingVectors.Length)
                 {
@@ -56,7 +52,6 @@ public class Roomba : MonoBehaviour
 
                 if (state == 2)  // in returning state
                 {
-                    Debug.Log("switch state 2");
                     state = 0;
                     capturedMask = null;
                     GetComponent<BoxCollider>().enabled = true;
@@ -65,7 +60,6 @@ public class Roomba : MonoBehaviour
 
             else if (state == 1)  // in maskAbsorbed state
             {
-                Debug.Log("switch state 1");
                 capturedMask.GetComponent<MaskLaunchScript>().RoombaReturning();
                 GetComponent<BoxCollider>().enabled = false;
                 state = 2;
@@ -88,6 +82,7 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // player that is not currently in a mask can be absorbed (roomba does not have a mask sucked up currently)
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
             statusMessage.gameObject.SetActive(true);

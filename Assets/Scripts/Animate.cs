@@ -24,9 +24,7 @@ public class Human : MonoBehaviour
         animator.SetTrigger("BecomeTerrified"); 
     }
     public void OnTriggerEnter(Collider col){
-        //actiivate spider script if 
-        Debug.Log("Something is close to the face");
-        Debug.Log(col.gameObject);
+        //  actiivate spider script if mask touches trigger below human
 
         if (col.gameObject.CompareTag("Player")){
             statusMessage.gameObject.SetActive(true);
@@ -38,7 +36,6 @@ public class Human : MonoBehaviour
             else if (obj2== null){
                 obj2= col.GameObject();
             }
-            Debug.Log("Face is near Human");
             col.gameObject.GetComponent<MaskLaunchScript>().nearface= true;
             
             spider.GetComponent<SpiderController>().target= col.gameObject.transform; 
