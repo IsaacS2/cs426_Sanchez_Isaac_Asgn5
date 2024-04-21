@@ -10,9 +10,8 @@ public class MaskLaunchScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody rb;
-    private bool canLaunch, forceIncreasing, chargingForce, sticky;
-    // public float setForce;  static force used for first task
-    private float posTimer;  // timer that determines if mask is still for ~1 second
+    private bool canLaunch, forceIncreasing, chargingForce, sticky, killerTouching, trapBaseTouching;
+    private float posTimer; // posTimer is as timer that determines if mask is still for ~1.5 seconds 
     private Vector3 prevLocation, startLocation, spawnLocation, rotationAmount; 
     private Quaternion startRotation;
     private LineRenderer trajectoryline;
@@ -86,11 +85,10 @@ public class MaskLaunchScript : MonoBehaviour
         gameObject.GetComponent<movement>().enabled = true;
 
         if (AngleFab != null) {  // not the first turn of the mask
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
-            rb.position = prevLocation;
+            /*transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
+            rb.position = prevLocation;*/
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             trajectoryline.enabled = true;
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;  // freeze mask position to keep them from teleporting/moving while aiming shot
         }
 
         camHolder.GetComponent<movement>().enabled = true;
@@ -276,12 +274,20 @@ public class MaskLaunchScript : MonoBehaviour
         {
             if (canLaunch)  // keep the mask steady while preparing for launching by maintaining rotation
             {
-                // if mask is rotated at a significant angle/upside down, its rotation should be reset
-                if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315) 
-                    || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
+                // If mask is rotated at a significant angle/upside down, its rotation should be reset.
+                // Touching bools are checked to see if the mask is in contact with 2 parts of a mouse trap
+                // In this case, the mask will be left at its current rotation so it doesn't clip through the
+                // mouse trap while changing rotation.
+                if (!killerTouching || !trapBaseTouching) {
+                    if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
+                        || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
+                    {
+                        rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
+                    }
+                }
+                else
                 {
-                    Debug.Log("Reset Position from x-rotation: " + rb.transform.localEulerAngles.x + " and z-rotation: " + rb.transform.localEulerAngles.z);
-                    rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
+                    Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
                 }
             }
 
@@ -307,6 +313,7 @@ public class MaskLaunchScript : MonoBehaviour
 
                     // activate other player and deactivate camera if the other player is not in a sticky trap
                     if (nextPlayer.GetComponent<MaskLaunchScript>().trap_cond==0){
+
                         nextPlayer.GetComponent<MaskLaunchScript>().enabled = true;
                         revertCamera();
                         nextPlayer.GetComponent<MaskLaunchScript>().revertCamera();
@@ -338,6 +345,33 @@ public class MaskLaunchScript : MonoBehaviour
             mousetrapsound.GetComponent<AudioSource>().Play();
             statusMessage.gameObject.SetActive(true);
             statusMessage.text = "Oops, activated trap!";
+        }
+
+        // player is on the base of a mouse trap
+        if (collision.gameObject.CompareTag("TrapBase"))
+        {
+            trapBaseTouching = true;
+        }
+
+        // player is in contact with the clamp/killer of the mouse trap
+        if (collision.gameObject.CompareTag("KillerTrap"))
+        {
+            killerTouching = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // player is off the base of a mouse trap
+        if (collision.gameObject.CompareTag("TrapBase"))
+        {
+            trapBaseTouching = false;
+        }
+
+        // player is not in contact with the clamp of the mouse trap
+        if (collision.gameObject.CompareTag("KillerTrap"))
+        {
+            killerTouching = false;
         }
     }
 
@@ -430,7 +464,7 @@ public class MaskLaunchScript : MonoBehaviour
     void ShowTrajectory(Vector3 origin, Vector3 Speed){
         Vector3[] points= new Vector3[100];
         trajectoryline.positionCount= points.Length;
-        for(int i= 0; i<points.Length; i++){
+        for(int i= 0; i< points.Length; i++){
             float time= i* 0.1f;
             points[i] = origin + Speed * time + 0.5f * Physics.gravity * time * time;
         }
@@ -440,7 +474,7 @@ public class MaskLaunchScript : MonoBehaviour
     public Vector3 RoombaTriggered(GameObject roomba)
     {
         GetComponent<Renderer>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
+        rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints.None; // allow mask to move with roomba
 
         roombaTrap = roomba;
@@ -450,10 +484,10 @@ public class MaskLaunchScript : MonoBehaviour
     public void RoombaReturning()
     {
         GetComponent<Renderer>().enabled = true;
-        GetComponent<Rigidbody>().isKinematic = false;
-        // freeze movement constraints for accurate aiming, or if the mask has been launched, the mask will be placed in the
+        rb.isKinematic = false;
+        /*// freeze movement constraints for accurate aiming, or if the mask has been launched, the mask will be placed in the
         // flat area of their spawn point, so the freezing of constraints does not matter.
-        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;*/
         roombaTrap = null;
         rb.position = spawnLocation;
         statusMessage.text= "";

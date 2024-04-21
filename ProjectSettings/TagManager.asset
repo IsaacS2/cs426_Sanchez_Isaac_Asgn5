@@ -10,6 +10,7 @@ TagManager:
   - trampoline
   - spider
   - KillerTrap
+  - TrapBase
   layers:
   - Default
   - TransparentFX

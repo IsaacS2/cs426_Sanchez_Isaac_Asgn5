@@ -35,6 +35,8 @@ public class Roomba : MonoBehaviour
 
         target = patrollingVectors[patrollingInt];
         agent.SetDestination(target);
+
+        rb.isKinematic = true;
     }
 
     // Update is called once per frame
@@ -57,11 +59,6 @@ public class Roomba : MonoBehaviour
                     state = 0;
                     capturedMask = null;
                     GetComponent<BoxCollider>().enabled = true;
-                }
-
-                if (state == 0 || rb.isKinematic)  // roomba has begun idle state after returning mask to spawn point
-                {
-                    rb.isKinematic = false;
                 }
             }
 
@@ -89,19 +86,19 @@ public class Roomba : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Roomba touched something");
         // player that is not currently in a mask can be absorbed (roomba does not have a mask sucked up currently)
         if (collision.gameObject.CompareTag("Player") && capturedMask == null && state == 0)
         {
-            statusMessage.gameObject.SetActive(true);
             if (collision.gameObject.GetComponent<MaskLaunchScript>() != null) {
-                state = 1;  // 1 == maskAbsorbed state (the mask will be taken to its spawn position)
-                var maskVector = collision.gameObject.GetComponent<MaskLaunchScript>().RoombaTriggered(gameObject);
-                target = maskVector;
-                capturedMask = collision.gameObject;
-                statusMessage.text = "Roomba sucked up "+ collision.gameObject.name+ " !";
-                agent.SetDestination(target);
-                rb.isKinematic = true;  // keep roomba from colliding with other objects during transportation
+                if (collision.gameObject.GetComponent<MaskLaunchScript>().enabled) {  // mask can only be absorbed on its turn
+                    statusMessage.gameObject.SetActive(true);
+                    state = 1;  // 1 == maskAbsorbed state (the mask will be taken to its spawn position)
+                    var maskVector = collision.gameObject.GetComponent<MaskLaunchScript>().RoombaTriggered(gameObject);
+                    target = maskVector;
+                    capturedMask = collision.gameObject;
+                    statusMessage.text = "Roomba sucked up " + collision.gameObject.name + " !";
+                    agent.SetDestination(target);
+                }
             }
         }
     }
