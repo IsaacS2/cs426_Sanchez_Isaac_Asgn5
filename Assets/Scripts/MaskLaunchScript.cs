@@ -278,17 +278,20 @@ public class MaskLaunchScript : MonoBehaviour
                 // Touching bools are checked to see if the mask is in contact with 2 parts of a mouse trap
                 // In this case, the mask will be left at its current rotation so it doesn't clip through the
                 // mouse trap while changing rotation.
-                if (!killerTouching || !trapBaseTouching) {
-                    if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
-                        || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
+                if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
+                || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
+                {
+                    // updating the collision with mouse traps 
+                    trapBaseTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapBaseCollision();
+                    killerTouching = gameObject.GetComponent<MaskCollisionScript>().GetTrapKillerCollision();
+
+                    if (!killerTouching || !trapBaseTouching)
                     {
                         rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
                     }
                 }
-                else
-                {
-                    Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
-                }
+
+                Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
             }
 
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
@@ -345,33 +348,6 @@ public class MaskLaunchScript : MonoBehaviour
             mousetrapsound.GetComponent<AudioSource>().Play();
             statusMessage.gameObject.SetActive(true);
             statusMessage.text = "Oops, activated trap!";
-        }
-
-        // player is on the base of a mouse trap
-        if (collision.gameObject.CompareTag("TrapBase"))
-        {
-            trapBaseTouching = true;
-        }
-
-        // player is in contact with the clamp/killer of the mouse trap
-        if (collision.gameObject.CompareTag("KillerTrap"))
-        {
-            killerTouching = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        // player is off the base of a mouse trap
-        if (collision.gameObject.CompareTag("TrapBase"))
-        {
-            trapBaseTouching = false;
-        }
-
-        // player is not in contact with the clamp of the mouse trap
-        if (collision.gameObject.CompareTag("KillerTrap"))
-        {
-            killerTouching = false;
         }
     }
 
