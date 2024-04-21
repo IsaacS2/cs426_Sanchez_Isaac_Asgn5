@@ -890,8 +890,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Controls: A/D -> Turn mask; \n\nW/S -> Change upward angle;\n\nQ/E ->
-    move trajectory angle independently;\n\nSpace Bar -> Charge/release for shot\n"
+  m_text: "A/D -> Turn mask; \n\nW/S -> Change upward angle;\n\nQ/E -> move trajectory
+    angle independently;\n\nSpace Bar -> Charge/release for shot\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -901,7 +901,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278981360
-  m_fontColor: {r: 0.93962264, g: 0.07161824, b: 0.04786749, a: 1}
+  m_fontColor: {r: 0.09433961, g: 0.09104662, b: 0.09095762, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
