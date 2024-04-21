@@ -41,3 +41,15 @@ Schedule and deliverable:
   - Create developer/publisher logo screen --  Sunday 1pm (2 hours)
 
 
+
+
+
+===============================Asgn 9===============================
+
+Schedule and deliverable:
+
+  - Controls display -- Sunday 1pm (2 hours)
+  - fix that gremlin sometimes gets stuck on the human’s legs.-- Sunday 3pm (2 hour)
+  -show the player when get punished by the germlin -- Sunay 5pm (2 hour)
+
+
