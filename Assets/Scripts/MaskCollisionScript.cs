@@ -5,6 +5,12 @@ using UnityEngine;
 public class MaskCollisionScript : MonoBehaviour
 {
     private bool killerTouching, trapBaseTouching;
+    private Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -12,6 +18,7 @@ public class MaskCollisionScript : MonoBehaviour
         if (collision.gameObject.CompareTag("TrapBase"))
         {
             trapBaseTouching = true;
+            rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
         }
 
         // player is in contact with the clamp/killer of the mouse trap

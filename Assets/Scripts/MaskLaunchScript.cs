@@ -87,6 +87,10 @@ public class MaskLaunchScript : MonoBehaviour
         if (AngleFab != null) {  // not the first turn of the mask
             //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // rotate mask so its rightside up
             //rb.position = prevLocation;
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+            rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);  // rotate mask so its rightside up
+            rb.constraints = RigidbodyConstraints.None;
+
             camHolder.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);  // reorient the camera so the trajectory angle is aligned
             trajectoryline.enabled = true;
         }
@@ -278,7 +282,7 @@ public class MaskLaunchScript : MonoBehaviour
                 // Touching bools are checked to see if the mask is in contact with 2 parts of a mouse trap
                 // In this case, the mask will be left at its current rotation so it doesn't clip through the
                 // mouse trap while changing rotation.
-                /*if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
+                if ((Mathf.Abs(rb.transform.localEulerAngles.x) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.x) <= 315)
                 || (Mathf.Abs(rb.transform.localEulerAngles.z) >= 45f && Mathf.Abs(rb.transform.localEulerAngles.z) <= 315))
                 {
                     // updating the collision with mouse traps 
@@ -287,9 +291,12 @@ public class MaskLaunchScript : MonoBehaviour
 
                     //if (!killerTouching || !trapBaseTouching)
                     //{
-                        rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
+                    //rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);
                     //}
-                }*/
+                    rb.constraints = RigidbodyConstraints.FreezePosition;
+                    rb.transform.localEulerAngles = new Vector3(0, rb.transform.localEulerAngles.y, 0);  // rotate mask so its rightside up
+                    rb.constraints = RigidbodyConstraints.None;
+                }
 
                 //Debug.Log("Touching base trap: " + trapBaseTouching + "; Touching killer: " + killerTouching);
             }
