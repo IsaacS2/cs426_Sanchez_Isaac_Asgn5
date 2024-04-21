@@ -293,7 +293,7 @@ public class MaskLaunchScript : MonoBehaviour
         {
             
             posTimer -= Time.fixedDeltaTime;  // reduce timer value since mask is not moving
-            if (posTimer <= 0)  // mask can be launched again
+            if (posTimer <= 0 && nearface == false)  // mask can be launched again
             {
                 StopLaunchParticles();
                 
