@@ -383,7 +383,7 @@ public class MaskLaunchScript : MonoBehaviour
                 // Add the bounce force to the object's Rigidbody
                 if (rb != null)
                 {
-                    rb.AddForce(((Vector3.up * 2) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
+                    rb.AddForce(((Vector3.up * 1.75f) + AngleFab.transform.forward) * temp_forceVal, ForceMode.Impulse);
                 }
             }
             // player got hit by a spider
