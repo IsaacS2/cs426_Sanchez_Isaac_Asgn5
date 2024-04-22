@@ -6,6 +6,7 @@ public class SpiderController : MonoBehaviour
 {
     // Start is called before the first frame update
     public Animator anim;
+    private Vector3 startPosition;
     
     public Transform target; // The target object's Transform
     [SerializeField] private float speed = 0.7f;  
@@ -22,7 +23,7 @@ public class SpiderController : MonoBehaviour
         // Get the Rigidbody component
         anim=GetComponent<Animator> ();
         rb = GetComponent<Rigidbody>();
-        
+        startPosition = rb.position;
     }
     void Update(){
         if (target==null){
@@ -54,5 +55,12 @@ public class SpiderController : MonoBehaviour
 
             anim.SetTrigger("run");
         }
+    }
+
+    public void ResetSpider()
+    {
+        rb.position = startPosition;
+        rb.velocity = Vector3.zero;
+        target = null;
     }
 }

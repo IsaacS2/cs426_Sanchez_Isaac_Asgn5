@@ -98,20 +98,11 @@ public class MaskLaunchScript : MonoBehaviour
         camHolder.GetComponent<movement>().enabled = true;
 
         // Show the turn message and set it to hide after 2 seconds
-        yourTurnMessage.color= Color.red;
-        
-        if(exitface==true){  // mask has left 
-            yourTurnMessage.text = "Gremlin attacked you!";
-            
-        }
-        else{
-            yourTurnMessage.text = "Your Turn!";
+        yourTurnMessage.color = Color.black;
+        yourTurnMessage.text = "Your Turn!";
            
-        }
         yourTurnMessage.gameObject.SetActive(true);
         Invoke(nameof(HideTurnMessage), 2f); // Using Invoke to delay the call to HideTurnMessage
-
-        yourTurnMessage.color= Color.black;
     }
 
     private void HideTurnMessage()
@@ -202,7 +193,7 @@ public class MaskLaunchScript : MonoBehaviour
                 // check to make sure trajectory line is not already at max launch angle
                 if (AngleFab.transform.localEulerAngles.x == 0 || AngleFab.transform.localEulerAngles.x >= 285 ) 
                 {
-                    exitface = false;
+                    
                     if (!angleAdjustSound.isPlaying)
                     {
                         angleAdjustSound.Play();
@@ -397,13 +388,15 @@ public class MaskLaunchScript : MonoBehaviour
             }
             // player got hit by a spider
             else if (other.gameObject.CompareTag("spider")) {
-                if (this.gameObject == GameObject.Find("P1Mask")) {
+                if (gameObject == GameObject.Find("P1Mask")) {
                     rb.position = returnpoint.transform.position;
                 }
                 else {
                     rb.position = returnpoint2.transform.position;
                 }
 
+                // reset spider variables
+                other.gameObject.GetComponent<SpiderController>().ResetSpider();
                 other.gameObject.GetComponent<SpiderController>().detected = false;
                 other.gameObject.GetComponent<SpiderController>().enabled = false;
                 other.gameObject.GetComponent<SpiderController>().anim.SetTrigger("stop running");

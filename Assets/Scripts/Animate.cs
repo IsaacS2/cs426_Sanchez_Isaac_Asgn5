@@ -67,7 +67,9 @@ public class Human : MonoBehaviour
                 }
             }
             other.gameObject.GetComponent<MaskLaunchScript>().exitface= true;
-            
+            statusMessage.color = Color.red;
+            statusMessage.text = "Gremlin attacked you!";
+
             if (obj1 ==null && obj2==null){
             Debug.Log("No more players");
             other.gameObject.GetComponent<MaskLaunchScript>().nearface= false;
