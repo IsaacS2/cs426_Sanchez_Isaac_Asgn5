@@ -10,7 +10,6 @@ public class MouseTrapManager : MonoBehaviour
     void Start()
     {
         allMouseTrap = GameObject.FindGameObjectsWithTag("KillerTrap");
-        Debug.Log(allMouseTrap.Length);
         FM = this;
     }
 }

@@ -307,7 +307,7 @@ public class MaskLaunchScript : MonoBehaviour
             {
                 StopLaunchParticles();
 
-                if (!canLaunch && !winMessage.isActiveAndEnabled)  // transition to next player's turn
+                if (!canLaunch && !GlobalVariables.FM.win)  // transition to next player's turn
                 {
                     prevLocation = rb.position;
 
@@ -364,12 +364,13 @@ public class MaskLaunchScript : MonoBehaviour
     {
         if (!canLaunch) {  // these collisions should only occur when mask has been launched
             // player hit the human face
-            if (other.gameObject.CompareTag("Face") && !winMessage.isActiveAndEnabled)
+            if (other.gameObject.CompareTag("Face") && !GlobalVariables.FM.win)
             {
                 winMessage.gameObject.SetActive(true);
                 replayButton.gameObject.SetActive(true);
                 creditButton.gameObject.SetActive(true);
                 winMessage.color = Color.yellow;
+                GlobalVariables.FM.win = true;
             }
             // player landed on the sticky/poop trap
             else if (other.gameObject.CompareTag("Trap2") && trap_cond == 0) {
