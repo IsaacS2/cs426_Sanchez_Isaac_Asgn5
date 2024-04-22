@@ -22,11 +22,9 @@ public class LookAtPlayer : MonoBehaviour
     void Update()
     {   
         if (player1){
-            Debug.Log("P1 ACTIVE");
-             transform.LookAt(player1.transform);
+            transform.LookAt(player1.transform);
         }
         else { 
-            Debug.Log("P2 ACTIVE");
             transform.LookAt(player2.transform);
         }
         Vector3 rotation = transform.rotation.eulerAngles;
