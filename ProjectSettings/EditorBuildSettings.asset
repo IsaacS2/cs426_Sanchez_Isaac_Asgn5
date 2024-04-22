@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/DemoAsgn8.unity
     guid: f35618698ab7c904a81a7384be3f9e86
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ahmed_Asgn9.unity
     guid: 11181e452f49f74488db433d51344a65
+  - enabled: 1
+    path: Assets/Scenes/IsaacAsgn9_2.unity
+    guid: 2b7a2c0a89ebab448aff7e2104b01932
   m_configObjects: {}
