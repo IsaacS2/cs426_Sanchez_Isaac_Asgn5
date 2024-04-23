@@ -17,4 +17,18 @@ Schedule and delivarables:
 	UI design:
 		Change the win message color
 		Tell player when its their turn
-		Change sticky trap color to signify danger (red and not green)	
+		Change sticky trap color to signify danger (red and not green)
+
+---Assignment 8---
+Schedule and deliverables
+	Playtest other games for beta release 
+	Update trajectory based on players feedback (3 hrs)
+	Add Credit Screen (1 hr)
+	Add new spooky music for game (20 min)
+	Add Detail Shader (2 hrs)
+
+---Assignment 9---
+Schedule and deliverables
+	Update game based on beta reviews feedback
+		Fix the collider on table, so players don't get stuck (1 hr)
+		Add Signals for users to know where the mask is (3 hr)	
