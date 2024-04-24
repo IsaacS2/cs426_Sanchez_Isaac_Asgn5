@@ -38,7 +38,7 @@ public class creditButton : MonoBehaviour
             float z= creditMessage.rectTransform.localPosition.z;
             creditMessage.rectTransform.localPosition=new Vector3(x,y+30,z);        
             
-            if (y>3293.0){
+            if (y>4900.0){
                 creditMessage.rectTransform.localPosition=new Vector3(x,-740,z);
             }
             

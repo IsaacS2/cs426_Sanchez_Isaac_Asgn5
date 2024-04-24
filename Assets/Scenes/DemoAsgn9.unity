@@ -1459,7 +1459,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1753511532}
     m_Modifications:
     - target: {fileID: 1231204281645605472, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_Enabled
@@ -1479,15 +1479,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 82.5
+      value: 30.997234
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 256.09473
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20
+      value: 79.0697
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10053,6 +10053,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &708093524 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
+  m_PrefabInstance: {fileID: 1720767011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &716148150
 GameObject:
   m_ObjectHideFlags: 0
@@ -12795,21 +12800,29 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Mask Mayhem \n\nDevelopers: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi\n\n\"Free
     Rug Pack\" (https://assetstore.unity.com/packages/3d/props/interior/free-rug-pack-118178)
-    \nby Azerilo is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\n\"Bee-lowpoly\"
-    (https://sketchfab.com/3d-models/bee-lowpoly-bc2078873d864db9b71f9064a935af7d)
+    \nby Azerilo is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\n\"Gorilla
+    Tag Camping Stuff\" (https://sketchfab.com/3d-models/gorilla-tag-camping-stuff-680edb27cddb47d4b9cb5f78fb7d9335)\nsupplied
+    by KPMisParrot and by Gorilla Tag, is licensed under Creative Commons Attributions
+    (https://creativecommons.org/licenses/by/4.0/).\n\n\"Bee-lowpoly\" (https://sketchfab.com/3d-models/bee-lowpoly-bc2078873d864db9b71f9064a935af7d)
     \nby 1225659838@qq.com is licensed under Creative Commons Attributions (https://creativecommons.org/licenses/by/4.0/).\n\n\"FREE
     Minimalist Table\" (https://assetstore.unity.com/packages/3d/props/furniture/free-minimalist-table-189610)\nby
     Monqo Studios is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\n\"PBR
     Cardboard Box\" (https://assetstore.unity.com/packages/3d/props/pbr-cardboard-box-110635)\nby
-    Crow Art is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\nwin
-    sound:\nhttps://freesfx.co.uk/sfx/cheer (Audience Clapping, Whistling and Cheering)\n\nBackground
-    music: \nhttps://pixabay.com/sound-effects/game-music-loop-7-145285/\n\ntrampoline:\nhttps://pixabay.com/sound-effects/funny-sound-effect-for-quotjack-in-the-boxquot-sound-ver1-110923/\n\nBackground
-    music 2:\nhttps://assetstore.unity.com/packages/audio/music/free-casual-music-pack-242591\n\nLaunch
+    Crow Art is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\n\"PBR
+    Textures(pack)for floor\" (https://assetstore.unity.com/packages/2d/textures-materials/tiles/pbr-textures-pack-for-floor-77393)\r\nby
+    Maksim Bugrimov is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\nwin
+    sound:\nhttps://freesfx.co.uk/sfx/cheer (Audience Clapping, Whistling and Cheering)\n\nStarting
+    background music: \nhttps://pixabay.com/sound-effects/game-music-loop-7-145285/\n\ntrampoline
+    sound:\nhttps://pixabay.com/sound-effects/funny-sound-effect-for-quotjack-in-the-boxquot-sound-ver1-110923/\n\nBackground
+    music 2 (now unused):\nhttps://assetstore.unity.com/packages/audio/music/free-casual-music-pack-242591\n\nLaunch
     Sound, Land Sound, Land-on-mouse-trap Sound, Land-on-sticky-tap Sound:\nhttps://assetstore.unity.com/packages/audio/sound-fx/free-ui-click-sound-pack-244644\n\nZombie
     Sound:\nhttps://assetstore.unity.com/packages/audio/sound-fx/creatures/free-zombie-character-sounds-141740\n\nWall
     Texture:\nhttps://assetstore.unity.com/packages/2d/textures-materials/brick/old-urban-brick-texture-59256\n\n\"Free
     8 Spooky Tracks Music Pack\" (https://assetstore.unity.com/packages/audio/music/free-8-spooky-tracks-music-pack-275541)
-    by alkakrab is licensed under Extension Asset (https://unity.com/legal/as-terms).\n"
+    by alkakrab is licensed under Extension Asset (https://unity.com/legal/as-terms).\n\nDirection
+    Arrow:\nhttps://sketchfab.com/3d-models/direction-arrow-6ef46718c7b242e39fcad7f27ee858a5\n\nGremlin
+    (Doozy), Human (Remy), and Mouse (Mousey) models and their animations are from
+    Mixamo\r\nhttps://www.mixamo.com/#/"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17428,7 +17441,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1753511532}
     m_Modifications:
     - target: {fileID: 1231204281645605472, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_Enabled
@@ -17448,15 +17461,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -82.5
+      value: -134.00276
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 256.09473
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20
+      value: 39.069706
       objectReference: {fileID: 0}
     - target: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17965,6 +17978,8 @@ Transform:
   - {fileID: 1959127704}
   - {fileID: 508294658}
   - {fileID: 1567756718}
+  - {fileID: 1870957175}
+  - {fileID: 708093524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1796161801
@@ -19023,6 +19038,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7373248380085005525, guid: 8ca8d31491fce754fade97f51f5f5b40, type: 3}
   m_PrefabInstance: {fileID: 1848654943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1870957175 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1231204281766636741, guid: 912c1a45c5809e94ab662908dae46045, type: 3}
+  m_PrefabInstance: {fileID: 151775993}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1871600202
 PrefabInstance:
@@ -25156,8 +25176,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1745206299}
-  - {fileID: 151775993}
-  - {fileID: 1720767011}
   - {fileID: 1753511532}
   - {fileID: 538873080}
   - {fileID: 639375920}
