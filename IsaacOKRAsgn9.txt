@@ -1,0 +1,6 @@
+Schedule and deliverables
+  Prevent mask from triggering nearby traps before launching -- Sun by 11:59pm (estimate: 1 hr)
+  Keep mask from making shots while flipped over -- Sun by 11:59pm (estimate: 1 hr)
+  Keep mask from clipping out of mouse traps -- Sun by 11:59pm (estimate: 2 hr)
+  Allow roomba to suck up players even while the masks are not moving -- Sun by 11:59 (estimate: 1 hr)
+  Prevent the players from playing the game after someone has one until after pressing the replay button (estimate: 1 hr)
