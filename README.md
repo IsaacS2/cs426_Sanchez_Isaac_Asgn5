@@ -14,7 +14,7 @@ Group members: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi
                    
 - Hold and let go of space bar to charge and then release force to launch the mask during their turn
 
-# Assignment 6 Tasks:
+# Assignment 6 Notes
 
 ### For physics, we used a hinge joint for our mouse trap, particle systems for the masks, and basic box collisions for when the mask touches the face trigger around the human, or when the mask makes contact with the trampoline in the level. 
 
@@ -38,7 +38,7 @@ Group members: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi
 
 These components help make the game more challenging and/or help convey a sense of both humor and mystery, as the premise of masks stealing personality from others can be seen as both funny as somewhat dark. The new entrapments and powerups make the gameplay more engaging
 
-# cs426_Sanchez_Isaac_Asgn7
+# Assignment 7 Notes
 
 ### UI Design Issues
 - There is a lack of clarity in terms of the distinction between the win text color and the trap message color. The texts should either be more uniform, or the win text should be more colorful to get the player’s attention towards the fact that they won. (Victor)
@@ -170,7 +170,7 @@ For the win sound effect, we rejected clips of people talking. For the trampolin
 
 We added sounds for the mask landing, the mask being launched, the mask hitting the mouse trap/sticky trap/roomba, the mouse charging power, the mask adjusting its angle, the mask hitting a trampoline, and the mask hitting the face and winning. We also added background music for the start menu and main level, and background noise for the gremlin and the mouse. The mouse noise was made with lip sounds, and he power-charging sounds was made with an ocarina. The angle adjusting sound was made with snapping. These sounds helped make our game more mysterious, but fun.
 
-# Assignment 8 notes
+# Assignment 8 Notes
 ### Ahmed Additions
 Ahmed added an eye shader which makes the game more humorous and unsettling, made the traps appear clearly so players don’t fall into it without knowing its dangerous, also made a intro logo at the beginning of the game to make it look more professional and to introduce the game to the player, and made the objective of the goal clearer so they players should know what to aim for when playing the game.
 
@@ -179,3 +179,5 @@ Victor added a detail texture shader for the masks, for a more design centered e
 
 ### Isaac Addition
 Isaac added a toon-like shader to the boxes and table of the room, to give these environmental surfaces more prominence so that the player knows to use their verticality to their advantage. Isaac also added the introductory dialogue to the start menu, to expand on the setting. In terms of making the game easier, the human’s size was lowered, boxes were lowered to make them easier to jump on, and the trajectory angle has been given a new feature of being able to turn it separately from the mask with the Q/E keys. This allows the player to turn the angle and have the camera at a better view for seeing where they will land. In addition, the trajectory angle now updates with the current charged force of the player, for more accurate shots. Finally, the mask model has been updated with a custom model made in blender, so that users correlate the character with a mask.
+
+# For Assignment 9, we implemented bug fixes and feedback from beta testing to create the finished build seen in Asgn9MaskMayhemPublicDemo.zip. Download, unzip the folder, and run the "Mask Mayhem" executable to play the game. Enjoy!
