@@ -77,7 +77,7 @@ These components help make the game more challenging and/or help convey a sense 
 - The lack of control explanation broke the learnability principle. New start menu with controls has been added.
 
 ### Sound Design
-We chose the game Kirby’s Dream Course (https://www.youtube.com/watch?v=fFas8TNJmzc&t=476s). We counted about 8 sounds effects correlating to different actions in the game. 
+We chose the game Kirby’s Dream Course (https://www.youtube.com/watch?v=fFas8TNJmzc&t=476s) to analyze for sound effect inspiration. We counted about 8 sounds effects correlating to different actions in the game. 
 
 #### Angle-changing sound (Isaac)
 - This sound takes place when the player is making their shot and moving their shot cursor around the level.
