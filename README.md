@@ -16,7 +16,7 @@ Group members: Isaac Sanchez, Victor Savage, Ahmed Ruyyashi
 
 # Assignment 6 Tasks:
 
-## For physics, we used a hinge joint for our mouse trap, particle systems for the masks, and basic box collisions for when the mask touches the face trigger around the human, or when the mask makes contact with the trampoline in the level. 
+### For physics, we used a hinge joint for our mouse trap, particle systems for the masks, and basic box collisions for when the mask touches the face trigger around the human, or when the mask makes contact with the trampoline in the level. 
 
 ### For textures, we have 2 textures for the masks, a carpet texture, UI textures for the power bar, textures for the trampoline and sticky trap, and textures for each mecanim object. 
 
